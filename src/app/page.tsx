@@ -875,7 +875,7 @@ export default function Home() {
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     
                     {/* Column 1: Book Info */}
-                    <section className="lg:col-span-3 flex flex-col items-center text-center lg:text-left gap-6 sticky top-24">
+                    <section className="hidden lg:flex lg:col-span-3 flex-col items-center text-center lg:text-left gap-6 lg:sticky lg:top-24">
                       <div className="relative group">
                         <div className="absolute -inset-4 bg-primary/5 rounded-[2rem] blur-3xl opacity-50"></div>
                         {bookInfo.coverUrl ? (
