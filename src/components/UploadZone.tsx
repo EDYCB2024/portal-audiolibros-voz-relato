@@ -51,7 +51,11 @@ export default function UploadZone({
     }
   };
 
-  const onButtonClick = () => {
+  const onButtonClick = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     fileInputRef.current?.click();
   };
 
@@ -110,7 +114,8 @@ export default function UploadZone({
   return (
     <div className="w-full max-w-xl mx-auto flex flex-col gap-6">
       <div
-        className={`w-full p-12 bg-surface-container-low rounded-xl border-2 border-dashed transition-all duration-300 text-center flex flex-col items-center justify-center gap-6 relative group ${
+        onClick={onButtonClick}
+        className={`w-full p-12 bg-surface-container-low rounded-xl border-2 border-dashed transition-all duration-300 text-center flex flex-col items-center justify-center gap-6 cursor-pointer relative group ${
           isDragActive
             ? "border-secondary bg-primary-fixed/10 scale-[1.01]"
             : "border-outline-variant hover:border-primary hover:bg-surface-container transition-colors"
@@ -123,7 +128,7 @@ export default function UploadZone({
         <input
           ref={fileInputRef}
           type="file"
-          className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-20"
+          className="hidden"
           accept=".pdf"
           onChange={handleChange}
         />
@@ -148,7 +153,8 @@ export default function UploadZone({
 
         <button
           type="button"
-          className="bg-primary text-on-primary font-body font-bold px-6 py-2.5 rounded-full hover:bg-primary-container transition-all active:scale-95 text-sm shadow-md"
+          onClick={onButtonClick}
+          className="bg-primary text-on-primary font-body font-bold px-6 py-2.5 rounded-full hover:bg-primary-container transition-all active:scale-95 text-sm shadow-md z-10"
         >
           Seleccionar Archivo
         </button>

@@ -855,65 +855,67 @@ export default function Home() {
                 </div>
               ) : (
                 /* Full Screen Reader and Player controls */
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-fade-in pb-16">
+                <div className="space-y-6 pb-16 animate-fade-in">
                   
-                  {/* Column 1: Book Info */}
-                  <section className="lg:col-span-3 flex flex-col items-center text-center lg:text-left gap-6 sticky top-24">
-                    <div className="relative group">
-                      <div className="absolute -inset-4 bg-primary/5 rounded-[2rem] blur-3xl opacity-50"></div>
-                      {bookInfo.coverUrl ? (
-                        <img
-                          src={bookInfo.coverUrl}
-                          alt={bookInfo.title}
-                          className="w-48 h-72 md:w-56 md:h-84 object-cover rounded-lg cover-shadow relative z-10 border border-outline-variant/30"
-                        />
-                      ) : (
-                        <div className="w-48 h-72 md:w-56 md:h-84 bg-gradient-to-br from-primary to-primary-container rounded-lg cover-shadow border border-primary-fixed/20 relative z-10 flex flex-col justify-between p-6 text-left">
-                          <span className="text-[10px] text-on-primary-container font-body font-bold tracking-widest uppercase">Audiolibro PDF</span>
-                          <div className="space-y-3">
-                            <h2 className="font-display text-xl text-white leading-tight font-bold">{bookInfo.title}</h2>
-                            <p className="font-body text-xs text-on-primary-container italic">{bookInfo.author}</p>
+                  {/* Lector Header Bar (Desktop & Mobile) */}
+                  <div className="flex justify-between items-center bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 shadow-sm">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="material-symbols-outlined text-primary text-2xl shrink-0">headphones</span>
+                      <div className="min-w-0 text-left">
+                        <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider block">Reproduciendo ahora</span>
+                        <h2 className="font-display text-xs md:text-sm text-primary font-bold truncate block leading-tight">{bookInfo.title}</h2>
+                      </div>
+                    </div>
+                    
+                    <button
+                      onClick={handleCloseBook}
+                      className="flex items-center gap-1.5 text-xs text-error hover:bg-error-container/15 font-body font-bold py-2 px-4 border border-error/30 hover:border-error/60 rounded-xl transition-all active:scale-95 cursor-pointer shrink-0"
+                    >
+                      <span className="material-symbols-outlined text-sm">arrow_back</span>
+                      <span>Volver a la Biblioteca</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    {/* Column 1: Book Info */}
+                    <section className="lg:col-span-3 flex flex-col items-center text-center lg:text-left gap-6 sticky top-24">
+                      <div className="relative group">
+                        <div className="absolute -inset-4 bg-primary/5 rounded-[2rem] blur-3xl opacity-50"></div>
+                        {bookInfo.coverUrl ? (
+                          <img
+                            src={bookInfo.coverUrl}
+                            alt={bookInfo.title}
+                            className="w-48 h-72 md:w-56 md:h-84 object-cover rounded-lg cover-shadow relative z-10 border border-outline-variant/30"
+                          />
+                        ) : (
+                          <div className="w-48 h-72 md:w-56 md:h-84 bg-gradient-to-br from-primary to-primary-container rounded-lg cover-shadow border border-primary-fixed/20 relative z-10 flex flex-col justify-between p-6 text-left">
+                            <span className="text-[10px] text-on-primary-container font-body font-bold tracking-widest uppercase">Audiolibro PDF</span>
+                            <div className="space-y-3">
+                              <h2 className="font-display text-xl text-white leading-tight font-bold">{bookInfo.title}</h2>
+                              <p className="font-body text-xs text-on-primary-container italic">{bookInfo.author}</p>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <div className="h-0.5 bg-secondary rounded-full w-1/4"></div>
+                              <span className="material-symbols-outlined text-secondary text-2xl">headphones</span>
+                            </div>
                           </div>
-                          <div className="flex justify-between items-center">
-                            <div className="h-0.5 bg-secondary rounded-full w-1/4"></div>
-                            <span className="material-symbols-outlined text-secondary text-2xl">headphones</span>
-                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-3 w-full px-4 lg:px-0">
+                        <h1 className="font-display text-headline-md text-primary font-bold line-clamp-2 leading-tight">{bookInfo.title}</h1>
+                        <p className="font-body text-sm text-on-surface-variant italic">{bookInfo.author}</p>
+                        <div className="flex gap-2 justify-center lg:justify-start flex-wrap mt-2">
+                          <span className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full font-body text-[10px] uppercase font-bold tracking-wider">{bookInfo.chapters.length} Capítulos</span>
                         </div>
-                      )}
-                    </div>
-
-                    <div className="space-y-3 w-full px-4 lg:px-0">
-                      <h1 className="font-display text-headline-md text-primary font-bold line-clamp-2 leading-tight">{bookInfo.title}</h1>
-                      <p className="font-body text-sm text-on-surface-variant italic">{bookInfo.author}</p>
-                      <div className="flex gap-2 justify-center lg:justify-start flex-wrap mt-2">
-                        <span className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full font-body text-[10px] uppercase font-bold tracking-wider">{bookInfo.chapters.length} Capítulos</span>
-                        <button
-                          onClick={handleCloseBook}
-                          className="px-2.5 py-0.5 border border-outline-variant/40 hover:border-primary text-on-surface-variant hover:text-primary transition-all rounded-full font-body text-[10px] uppercase font-bold tracking-wider cursor-pointer"
-                        >
-                          Cerrar Libro
-                        </button>
                       </div>
-                    </div>
-                  </section>
+                    </section>
 
-                  {/* Column 2: Reader Panel */}
-                  <section className={`${activeTab === "lectura" ? "block" : "hidden lg:block"} lg:col-span-5 h-full w-full space-y-6`}>
-                    {/* Mobile back / close bar */}
-                    <div className="flex lg:hidden justify-between items-center bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/15 mb-3">
-                      <div className="overflow-hidden min-w-0 flex-1 pr-3 text-left">
-                        <span className="font-display text-xs font-bold text-primary truncate block">{bookInfo.title}</span>
-                      </div>
-                      <button
-                        onClick={handleCloseBook}
-                        className="flex items-center gap-1 text-[11px] text-error hover:bg-error-container/20 font-body font-bold py-1.5 px-3 border border-error/25 rounded-lg transition-all cursor-pointer shrink-0"
-                      >
-                        <span className="material-symbols-outlined text-sm">close</span>
-                        <span>Cerrar Libro</span>
-                      </button>
-                    </div>
-
-                    {/* Mobile tabs for reader options */}
+                    {/* Column 2: Reader Panel */}
+                    <section className={`${activeTab === "lectura" ? "block" : "hidden lg:block"} lg:col-span-5 h-full w-full space-y-6`}>
+                      
+                      {/* Mobile tabs for reader options */}
                     <div className="flex lg:hidden bg-surface-container p-1 rounded-xl border border-outline-variant/20 mb-4 text-xs font-bold font-body">
                       <button onClick={() => setActiveTab("lectura")} className={`flex-1 py-2 rounded-lg text-center ${activeTab === "lectura" ? "bg-primary text-on-primary" : "text-on-surface-variant"}`}>Lectura</button>
                       <button onClick={() => setActiveTab("capitulos")} className={`flex-1 py-2 rounded-lg text-center ${activeTab === "capitulos" ? "bg-primary text-on-primary" : "text-on-surface-variant"}`}>Capítulos</button>
@@ -990,9 +992,10 @@ export default function Home() {
                   </aside>
 
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
+        )}
 
           {/* E. SECCIÓN MI BIBLIOTECA */}
           {currentSection === "biblioteca" && (
