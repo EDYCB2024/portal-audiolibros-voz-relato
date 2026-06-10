@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { catalogBooks } from "../lib/catalogData";
+import { getDbItem, setDbItem, removeDbItem } from "../lib/indexedDb";
 
 // Helper to convert base64 Data URL to Blob
 const base64ToBlob = (base64Data: string, contentType: string) => {
@@ -85,18 +86,17 @@ export function useAudioBook() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Load initial settings and progress from localStorage
+    // Load initial settings and progress from localStorage & IndexedDB
     try {
-      const savedBook = localStorage.getItem("vyr_bookInfo");
-      if (savedBook) {
-        setBookInfo(JSON.parse(savedBook));
+      // 1. Clean up old large entries in localStorage to release quota
+      if (localStorage.getItem("vyr_bookInfo")) {
+        localStorage.removeItem("vyr_bookInfo");
       }
-      
-      const savedUploadedBooks = localStorage.getItem("vyr_uploadedBooks");
-      if (savedUploadedBooks) {
-        setUploadedBooks(JSON.parse(savedUploadedBooks));
+      if (localStorage.getItem("vyr_uploadedBooks")) {
+        localStorage.removeItem("vyr_uploadedBooks");
       }
-      
+
+      // 2. Load small settings synchronously
       const savedChapter = localStorage.getItem("vyr_currentChapterIndex");
       if (savedChapter) setCurrentChapterIndex(parseInt(savedChapter, 10));
       
@@ -114,6 +114,24 @@ export function useAudioBook() {
     } catch (e) {
       console.error("Error loading settings from localStorage:", e);
     }
+
+    // 3. Load large objects asynchronously from IndexedDB
+    const loadLargeCachedData = async () => {
+      try {
+        const savedBook = await getDbItem<LibraryBook>("vyr_bookInfo");
+        if (savedBook) {
+          setBookInfo(savedBook);
+        }
+        
+        const savedUploadedBooks = await getDbItem<LibraryBook[]>("vyr_uploadedBooks");
+        if (savedUploadedBooks) {
+          setUploadedBooks(savedUploadedBooks);
+        }
+      } catch (err) {
+        console.error("Error loading large cache from IndexedDB:", err);
+      }
+    };
+    loadLargeCachedData();
 
     if (!window.speechSynthesis) return;
 
@@ -166,17 +184,28 @@ export function useAudioBook() {
     };
   }, []);
 
-  // Save settings and progress to localStorage
+  // Save settings and progress to IndexedDB & localStorage
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (bookInfo) {
-      localStorage.setItem("vyr_bookInfo", JSON.stringify(bookInfo));
+      setDbItem("vyr_bookInfo", bookInfo).catch(err => 
+        console.error("Failed to save bookInfo to IndexedDB:", err)
+      );
     } else {
-      localStorage.removeItem("vyr_bookInfo");
+      removeDbItem("vyr_bookInfo").catch(err => 
+        console.error("Failed to remove bookInfo from IndexedDB:", err)
+      );
       localStorage.removeItem("vyr_currentChapterIndex");
       localStorage.removeItem("vyr_currentSentenceIndex");
     }
   }, [bookInfo]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setDbItem("vyr_uploadedBooks", uploadedBooks).catch(err => 
+      console.error("Failed to save uploadedBooks to IndexedDB:", err)
+    );
+  }, [uploadedBooks]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -466,7 +495,6 @@ export function useAudioBook() {
         // Evitar duplicados por el mismo título para no saturar memoria
         const filtered = prev.filter(b => b.title.toLowerCase() !== title.toLowerCase());
         const updated = [info, ...filtered];
-        localStorage.setItem("vyr_uploadedBooks", JSON.stringify(updated));
         return updated;
       });
       
@@ -565,7 +593,6 @@ export function useAudioBook() {
     setUploadedBooks(prev => {
       const filtered = prev.filter(b => b.id !== "demo-el-principito");
       const updated = [demoInfo, ...filtered];
-      localStorage.setItem("vyr_uploadedBooks", JSON.stringify(updated));
       return updated;
     });
     setProgress(100);
@@ -748,7 +775,6 @@ export function useAudioBook() {
   const deleteLibraryBook = (id: string) => {
     setUploadedBooks(prev => {
       const updated = prev.filter(b => b.id !== id);
-      localStorage.setItem("vyr_uploadedBooks", JSON.stringify(updated));
       return updated;
     });
     
