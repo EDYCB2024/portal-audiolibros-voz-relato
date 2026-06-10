@@ -490,8 +490,9 @@ export function useAudioBook() {
     setProgress(50);
     
     // Create a rich demo content
-    const demoInfo: BookInfo = {
-      title: "El Principito",
+    const demoInfo: LibraryBook = {
+      id: "demo-el-principito",
+      title: "El Principito (Demo)",
       author: "Antoine de Saint-Exupéry",
       coverUrl: null, // Will generate default cover in UI
       chapters: [
@@ -562,10 +563,17 @@ export function useAudioBook() {
           ],
           durationMinutes: 5
         }
-      ]
+      ],
+      addedAt: Date.now()
     };
 
     setBookInfo(demoInfo);
+    setUploadedBooks(prev => {
+      const filtered = prev.filter(b => b.id !== "demo-el-principito");
+      const updated = [demoInfo, ...filtered];
+      localStorage.setItem("vyr_uploadedBooks", JSON.stringify(updated));
+      return updated;
+    });
     setCurrentChapterIndex(0);
     setCurrentSentenceIndex(0);
     setIsPlaying(false);

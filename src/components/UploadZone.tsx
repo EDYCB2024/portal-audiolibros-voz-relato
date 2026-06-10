@@ -110,7 +110,7 @@ export default function UploadZone({
   return (
     <div className="w-full max-w-xl mx-auto flex flex-col gap-6">
       <div
-        className={`w-full p-12 bg-surface-container-low rounded-xl border-2 border-dashed transition-all duration-300 text-center flex flex-col items-center justify-center gap-6 cursor-pointer relative group ${
+        className={`w-full p-12 bg-surface-container-low rounded-xl border-2 border-dashed transition-all duration-300 text-center flex flex-col items-center justify-center gap-6 relative group ${
           isDragActive
             ? "border-secondary bg-primary-fixed/10 scale-[1.01]"
             : "border-outline-variant hover:border-primary hover:bg-surface-container transition-colors"
@@ -119,12 +119,11 @@ export default function UploadZone({
         onDragOver={handleDrag}
         onDragLeave={handleDrag}
         onDrop={handleDrop}
-        onClick={onButtonClick}
       >
         <input
           ref={fileInputRef}
           type="file"
-          className="hidden"
+          className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-20"
           accept=".pdf"
           onChange={handleChange}
         />

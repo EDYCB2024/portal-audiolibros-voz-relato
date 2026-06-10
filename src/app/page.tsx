@@ -61,7 +61,12 @@ export default function Home() {
 
   const handleFileSelect = (file: File) => {
     loadPdf(file);
-    setCurrentSection("reproductor");
+    setCurrentSection("biblioteca");
+  };
+
+  const handleCloseBook = () => {
+    resetBook();
+    setCurrentSection("biblioteca");
   };
 
   const handlePlayPause = () => {
@@ -195,17 +200,6 @@ export default function Home() {
         </nav>
 
         <div className="mt-auto pt-6 border-t border-outline-variant/25">
-          <div className="bg-primary-container text-on-primary p-4 rounded-xl mb-4 relative overflow-hidden group">
-            <span className="text-secondary-fixed-dim font-bold tracking-widest text-[9px] font-body block uppercase mb-1">OFERTA</span>
-            <p className="font-display text-sm leading-snug mb-3">Acceso ilimitado a clásicos narrados.</p>
-            <button 
-              onClick={() => alert("¡Próximamente disponible en la versión comercial!")}
-              className="bg-white text-primary text-xs font-bold py-2 rounded-full w-full hover:bg-secondary-fixed transition-colors cursor-pointer text-center block"
-            >
-              Prueba Premium
-            </button>
-          </div>
-          
           <div className="flex items-center gap-3 px-1 py-1">
             <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border border-outline-variant/35">
               <img 
@@ -894,7 +888,7 @@ export default function Home() {
                       <div className="flex gap-2 justify-center lg:justify-start flex-wrap mt-2">
                         <span className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full font-body text-[10px] uppercase font-bold tracking-wider">{bookInfo.chapters.length} Capítulos</span>
                         <button
-                          onClick={resetBook}
+                          onClick={handleCloseBook}
                           className="px-2.5 py-0.5 border border-outline-variant/40 hover:border-primary text-on-surface-variant hover:text-primary transition-all rounded-full font-body text-[10px] uppercase font-bold tracking-wider cursor-pointer"
                         >
                           Cerrar Libro
@@ -905,6 +899,20 @@ export default function Home() {
 
                   {/* Column 2: Reader Panel */}
                   <section className={`${activeTab === "lectura" ? "block" : "hidden lg:block"} lg:col-span-5 h-full w-full space-y-6`}>
+                    {/* Mobile back / close bar */}
+                    <div className="flex lg:hidden justify-between items-center bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/15 mb-3">
+                      <div className="overflow-hidden min-w-0 flex-1 pr-3 text-left">
+                        <span className="font-display text-xs font-bold text-primary truncate block">{bookInfo.title}</span>
+                      </div>
+                      <button
+                        onClick={handleCloseBook}
+                        className="flex items-center gap-1 text-[11px] text-error hover:bg-error-container/20 font-body font-bold py-1.5 px-3 border border-error/25 rounded-lg transition-all cursor-pointer shrink-0"
+                      >
+                        <span className="material-symbols-outlined text-sm">close</span>
+                        <span>Cerrar Libro</span>
+                      </button>
+                    </div>
+
                     {/* Mobile tabs for reader options */}
                     <div className="flex lg:hidden bg-surface-container p-1 rounded-xl border border-outline-variant/20 mb-4 text-xs font-bold font-body">
                       <button onClick={() => setActiveTab("lectura")} className={`flex-1 py-2 rounded-lg text-center ${activeTab === "lectura" ? "bg-primary text-on-primary" : "text-on-surface-variant"}`}>Lectura</button>
@@ -1163,7 +1171,7 @@ export default function Home() {
             </div>
 
             <button 
-              onClick={resetBook}
+              onClick={handleCloseBook}
               className="hidden md:flex w-7 h-7 items-center justify-center text-outline hover:text-primary hover:bg-surface-container rounded-full cursor-pointer transition-colors"
               title="Cerrar reproductor"
             >
