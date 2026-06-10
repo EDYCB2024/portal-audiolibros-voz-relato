@@ -1,15 +1,18 @@
 {
-  "name": "tmp_next",
+  "name": "audiolibros-voz-relato",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "node -e \"const fs = require('fs'); if (fs.existsSync('node_modules/pdfjs-dist/build/pdf.worker.min.mjs')) { fs.copyFileSync('node_modules/pdfjs-dist/build/pdf.worker.min.mjs', 'public/pdf.worker.mjs'); console.log('Worker de PDF.js copiado a public/pdf.worker.mjs'); }\""
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.1",
     "next": "16.2.9",
+    "pdfjs-dist": "^6.0.227",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },

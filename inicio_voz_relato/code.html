@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voz &amp; Relato - Tu Biblioteca Personal de Audiolibros</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#fff8f3",
+                    "surface": "#fff8f3",
+                    "on-tertiary-fixed": "#1c1c19",
+                    "surface-variant": "#e9e1da",
+                    "on-secondary-container": "#773311",
+                    "inverse-on-surface": "#f8efe8",
+                    "primary": "#163428",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed": "#360f00",
+                    "surface-container-low": "#faf2eb",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#1e1b17",
+                    "on-surface": "#1e1b17",
+                    "inverse-primary": "#adcebd",
+                    "on-error": "#ffffff",
+                    "primary-container": "#2d4b3e",
+                    "tertiary-fixed-dim": "#c9c6c2",
+                    "primary-fixed-dim": "#adcebd",
+                    "surface-container-highest": "#e9e1da",
+                    "error": "#ba1a1a",
+                    "on-tertiary-container": "#b5b3ae",
+                    "secondary-fixed": "#ffdbcd",
+                    "on-surface-variant": "#424844",
+                    "secondary": "#944926",
+                    "surface-container-high": "#efe7df",
+                    "on-primary-container": "#99baa9",
+                    "outline": "#727974",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#466557",
+                    "surface-dim": "#e0d9d1",
+                    "outline-variant": "#c1c8c3",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#2f4d40",
+                    "tertiary": "#2f2f2c",
+                    "inverse-surface": "#34302b",
+                    "secondary-fixed-dim": "#ffb597",
+                    "primary-fixed": "#c8ead8",
+                    "on-primary-fixed": "#012116",
+                    "secondary-container": "#fe9e74",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#f5ece5",
+                    "tertiary-container": "#464542",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#763311",
+                    "on-tertiary-fixed-variant": "#474743",
+                    "tertiary-fixed": "#e5e2dd",
+                    "surface-bright": "#fff8f3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "base": "8px",
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Libre Caslon Text"],
+                    "label-sm": ["Manrope"],
+                    "display-lg": ["Libre Caslon Text"],
+                    "headline-md": ["Libre Caslon Text"],
+                    "body-md": ["Manrope"],
+                    "body-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .book-card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(22, 52, 40, 0.1), 0 8px 10px -6px rgba(22, 52, 40, 0.1);
+        }
+        .glass-player {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 248, 243, 0.85);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="bg-background fixed top-0 w-full z-50 shadow-sm opacity-90 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-display-lg text-headline-md text-primary">Voz &amp; Relato</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-primary border-b-2 border-primary font-bold pb-1 font-body-md text-body-md" href="#">Biblioteca</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300 font-body-md text-body-md" href="#">Explorar</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300 font-body-md text-body-md" href="#">Tendencias</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center bg-surface-container rounded-full px-4 py-1.5 border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline text-[20px] mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md p-0 w-48" placeholder="Buscar audiolibros..." type="text"/>
+</div>
+<button class="text-primary hover:text-secondary transition-all">
+<span class="material-symbols-outlined text-[28px]" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32">
+<!-- Hero Section: Audiobook of the Month -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-16">
+<div class="relative overflow-hidden rounded-xl bg-primary-container text-on-primary h-[500px] flex flex-col md:flex-row items-center">
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+
+</div>
+<div class="relative z-10 w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center h-full">
+<span class="text-secondary-fixed-dim font-bold tracking-widest text-label-sm font-label-sm mb-4">RECOMENDACIÓN DEL MES</span>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-6">El Alquimista del Viento</h1>
+<p class="font-body-lg text-body-lg mb-8 opacity-90 max-w-lg">Sumérgete en una odisea sonora narrada por voces maestras. Descubre por qué esta historia ha cautivado a miles de oyentes este mes.</p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-secondary text-on-secondary px-8 py-3 rounded-full font-bold flex items-center gap-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                            Escuchar ahora
+                        </button>
+<button class="border border-primary-fixed-dim text-primary-fixed-dim px-8 py-3 rounded-full font-bold hover:bg-primary-fixed/10 transition-colors">
+                            Detalles
+                        </button>
+</div>
+</div>
+<div class="relative z-10 w-full md:w-1/2 h-full flex items-center justify-center p-8">
+<div class="relative group">
+<img alt="Book Cover" class="w-64 md:w-80 rounded-lg book-card-shadow transform group-hover:rotate-2 transition-transform duration-500" data-alt="A premium book cover design for 'El Alquimista del Viento' showing a surreal landscape with a cloaked figure walking through floating golden sand dunes under a forest green sky. The visual style is elegant and painterly with rich textures, soft glowing elements, and deep forest green tones, matching a high-end audiobook library aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPymZrhxThRifGLYdc-ai47yY7ragUxoYPsPfQfWzFnEB7wZuGgyI-Hd6lGZLjirb08RQn56TMsBQFnZcAJpi2Ybs2zPSMVMW_sVWdO9t7NAfWufsEeLvXUNvClX_eq_MKSpMTXdvypnbO9WNqXGnr6-AgnZ72DHwxX5s5XdhDIWxHwvkITYwt6X-GQYmNH5FwZgVxEg1-Lyo_BfVpAxgsvpS1MuF08kOePBSGzCQLH8fClS5SO_Y1CFc1D7fgcFyERyQyyE84rvKk"/>
+<div class="absolute -bottom-4 -right-4 bg-background p-4 rounded-full shadow-lg">
+<span class="material-symbols-outlined text-secondary text-[32px]" style="font-variation-settings: 'FILL' 1;">volume_up</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recommended for You -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-16">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-2">Recomendados para ti</h2>
+<div class="h-1 w-12 bg-secondary rounded-full"></div>
+</div>
+<button class="text-secondary font-bold font-body-md hover:underline">Ver todo</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-gutter">
+<!-- Book Card 1 -->
+<div class="group cursor-pointer">
+<div class="relative mb-4 overflow-hidden rounded-lg aspect-[2/3] book-card-shadow">
+<img alt="Audiobook" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" data-alt="A vintage book cover on a wooden desk with warm lighting. The aesthetic is cozy and intellectual, using a cream and brown color palette. Soft shadows and a slight focus on the book's leather texture suggest a premium listening experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMj2qW4qgAG9w7-Q3SddZTZdjQXXxHQyWcEcAR-EdSp-kNtu9EDS7KwDr4-hrCWNMSHkEgMAgqlhnafaHQhN6KIl9EqY7XPQDwDL7eg-Vf9HWpMakBeHnvJTxM1Zfjibh7mlOOnz8vI0DnACVR3JTaC9lfMU_ExF7CvJjvhR5dPBOptYwhdJIUadUC1IS9TeWWfmoh6DSf9WNd6eUa3ZvTmVtMvuEnJX5zNreOtLZfYxvlzoHUXiVz8QMe0RbDNNw-67jgHAt6bour"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-5xl">play_circle</span>
+</div>
+</div>
+<h3 class="font-headline-md text-[18px] text-primary group-hover:text-secondary transition-colors line-clamp-1">Crónicas del Bosque</h3>
+<p class="font-body-md text-on-surface-variant text-[14px]">Elena Valdivia</p>
+</div>
+<!-- Book Card 2 -->
+<div class="group cursor-pointer">
+<div class="relative mb-4 overflow-hidden rounded-lg aspect-[2/3] book-card-shadow">
+<img alt="Audiobook" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" data-alt="Modern abstract book cover with fluid shapes in terracotta and forest green. The background is a clean parchment texture. The mood is scholarly yet contemporary, perfect for a non-fiction bestseller." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAAGtx4zUQEG_Xlqg4Z0FSxEJjqFOUbnoGgDsKqTWIn_V7VjEXDIXk6qAG67gOmDeuoCQxkhQPzJyunRN8EJ7oZwXZvRudOou-8MPRpkGQdal2eLBducAPbTyHnhQS80PHyu2LqhmMEolAVVD47ZBSt3UmFm34HiAxgKTnFQhTDUSY39VqmCD93Ax1u0RqyZzfMubEi0Igp_09HoRK6gUU16BoTSwhEpzthPj29tdZIWeSo89DICBboh2F3CJXU__w-UQoITE_e_NO"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-5xl">play_circle</span>
+</div>
+</div>
+<h3 class="font-headline-md text-[18px] text-primary group-hover:text-secondary transition-colors line-clamp-1">El Susurro del Tiempo</h3>
+<p class="font-body-md text-on-surface-variant text-[14px]">Marco Aurelio Pérez</p>
+</div>
+<!-- Book Card 3 -->
+<div class="group cursor-pointer">
+<div class="relative mb-4 overflow-hidden rounded-lg aspect-[2/3] book-card-shadow">
+<img alt="Audiobook" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" data-alt="An artistic book cover featuring a minimalist golden compass on a deep forest green background. The lighting is low-key, emphasizing the premium quality and mystery of the content." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGomQF9840P3J-YaKrlRYfI7Qusk22KU6WmcaO0BbTICZSYpAXyl9482nm2IAk_4ZDq4A43SiUaBBgc5_WpTANkz2sWNZ4l57eJQjYYfVYZxznVbK7EwPwM5S6hG43pNDgVYHKVgNcZS0mC6Ch_6LIB_z9EzmP9h_u9hdcnW2C3XDVrzFeTBUH9I-Q2QrZVmfyrhIUCN20R3R02G7-MaUMqQE079XSddhFG-hbXxzLysI_-CR3KEAYzu5zdZOwqHAXmPWQi_rMv_HV"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-5xl">play_circle</span>
+</div>
+</div>
+<h3 class="font-headline-md text-[18px] text-primary group-hover:text-secondary transition-colors line-clamp-1">Navegando el Silencio</h3>
+<p class="font-body-md text-on-surface-variant text-[14px]">Isabel Allende</p>
+</div>
+<!-- Book Card 4 -->
+<div class="group cursor-pointer">
+<div class="relative mb-4 overflow-hidden rounded-lg aspect-[2/3] book-card-shadow">
+<img alt="Audiobook" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" data-alt="A book cover showing an intricate illustration of an old library with high ceilings and warm lantern light. The art style is refined and detailed, using rich earth tones and gold accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7hSpjWw6yt0rtT8Q-q21lN6YkpcEzpo5bWAsdvaUoDoMGCxNFIUFGRzMikVUAEhNWllnOP998HcBY9nMcLD2B34JoVyZWIlZTcwoePWIuDJrPxqKa_2JIHfX4OX_is8650hz0hEKspdgsDXCJsOrc0jzlj_Gp83q5o0JaosXTm9_xc4wiBXGh2SvwX0GhU8HrIU9uEHd3-8QEpvJgKhyIeN02iF9PJivITB0nD7y2xZRg-K5qcfPpFfypbDp_sV40TR-V-9rUriOx"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-5xl">play_circle</span>
+</div>
+</div>
+<h3 class="font-headline-md text-[18px] text-primary group-hover:text-secondary transition-colors line-clamp-1">La Librería Olvidada</h3>
+<p class="font-body-md text-on-surface-variant text-[14px]">Julio Cortázar</p>
+</div>
+<!-- Book Card 5 (Desktop only) -->
+<div class="hidden lg:block group cursor-pointer">
+<div class="relative mb-4 overflow-hidden rounded-lg aspect-[2/3] book-card-shadow">
+<img alt="Audiobook" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" data-alt="Conceptual book cover with a single feather pen floating over a calm lake at dusk. The colors are serene blues and greens with a soft cream border. Minimalist and elegant design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1e2kwJvxomkJTA5wMYKc5v21IN08pyDbxwiQqSk3tj1ommc9MIwasGk7vINg3xlVc8JeG6C9Ph879MNQ7mQ1KqU_TPuiGPsPkkDaF08JAQjdYcVycNQR9FqZW_-uciOpnUCp6MOvU6Ogwo9I9CwN3WHNBj102I5bGPnTzq9E43NTDNFDCwFJppgj8p9qJXNHBZWlzuUdZV15aYaGSIT8SpsvFg-zyeVXUCt0zlKsJ4LEvPVn_2nUcf_ljqiXXr5RaF0-fFBLAGj_b"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-5xl">play_circle</span>
+</div>
+</div>
+<h3 class="font-headline-md text-[18px] text-primary group-hover:text-secondary transition-colors line-clamp-1">El Arte del Verso</h3>
+<p class="font-body-md text-on-surface-variant text-[14px]">Gabriela Mistral</p>
+</div>
+</div>
+</section>
+<!-- Popular Categories -->
+<section class="bg-surface-container py-16">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<h2 class="font-headline-md text-headline-md text-primary mb-10 text-center">Categorías Populares</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+<div class="bg-background p-6 rounded-xl flex flex-col items-center justify-center text-center hover:bg-primary-fixed/20 transition-all cursor-pointer group shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-[40px] mb-3 group-hover:scale-110 transition-transform">history_edu</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">HISTORIA</span>
+</div>
+<div class="bg-background p-6 rounded-xl flex flex-col items-center justify-center text-center hover:bg-primary-fixed/20 transition-all cursor-pointer group shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-[40px] mb-3 group-hover:scale-110 transition-transform">auto_stories</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">FICCIÓN</span>
+</div>
+<div class="bg-background p-6 rounded-xl flex flex-col items-center justify-center text-center hover:bg-primary-fixed/20 transition-all cursor-pointer group shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-[40px] mb-3 group-hover:scale-110 transition-transform">psychology</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">MENTE</span>
+</div>
+<div class="bg-background p-6 rounded-xl flex flex-col items-center justify-center text-center hover:bg-primary-fixed/20 transition-all cursor-pointer group shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-[40px] mb-3 group-hover:scale-110 transition-transform">science</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">CIENCIA</span>
+</div>
+<div class="bg-background p-6 rounded-xl flex flex-col items-center justify-center text-center hover:bg-primary-fixed/20 transition-all cursor-pointer group shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-[40px] mb-3 group-hover:scale-110 transition-transform">castle</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">FANTASÍA</span>
+</div>
+<div class="bg-background p-6 rounded-xl flex flex-col items-center justify-center text-center hover:bg-primary-fixed/20 transition-all cursor-pointer group shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-[40px] mb-3 group-hover:scale-110 transition-transform">business_center</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">NEGOCIOS</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Trending Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-16">
+<h2 class="font-headline-md text-headline-md text-primary mb-8">Tendencias de la semana</h2>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Trending item 1 -->
+<div class="flex gap-6 p-4 rounded-xl hover:bg-surface-container transition-colors group cursor-pointer border border-transparent hover:border-outline-variant/20">
+<div class="relative w-32 h-32 shrink-0 overflow-hidden rounded-lg">
+<img alt="Trend" class="w-full h-full object-cover" data-alt="Macro photography of an old book's yellowed pages with elegant typography. The lighting is soft and golden, highlighting the tactile quality of paper and the scholarly atmosphere of a high-end audiobook service." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVRZZbjaQOeWEPvDE9PxqMl5wkJpBLuW2d40PSqxG4ssjeG4OmBiKTOi7qqPf-m4bl1_g_QlFPbRLXklZjhDQ6QBifWsq08DsX6qgcLywpx5jqwXcerfaLO6wRVXuCLt2nUjOfGihH7B5cs0zxqmXvVmxo1j0D7ujM6YIq9guPZRM2xz_pildEcwfe35uxw866HqIqs8TXu4R5zVH-YJscRoMIuKR2m66gNlc5D8N54C0BhkMmdyXD2q0eF-AizFBWpowfffHuY_Ut"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">play_arrow</span>
+</div>
+</div>
+<div class="flex flex-col justify-center">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-secondary font-bold text-label-sm font-label-sm">#1 TRENDING</span>
+<span class="w-1 h-1 bg-outline rounded-full"></span>
+<span class="text-on-surface-variant text-[12px]">24h 15m de audio</span>
+</div>
+<h4 class="font-headline-md text-[20px] text-primary group-hover:text-secondary transition-colors">La Metamorfosis del Mañana</h4>
+<p class="font-body-md text-on-surface-variant line-clamp-2 mt-1">Una exploración profunda sobre el futuro de la humanidad narrada por el reconocido historiador...</p>
+</div>
+</div>
+<!-- Trending item 2 -->
+<div class="flex gap-6 p-4 rounded-xl hover:bg-surface-container transition-colors group cursor-pointer border border-transparent hover:border-outline-variant/20">
+<div class="relative w-32 h-32 shrink-0 overflow-hidden rounded-lg">
+<img alt="Trend" class="w-full h-full object-cover" data-alt="A minimalist desk setup with a cup of tea, a notebook, and a small plant. The lighting is natural and bright, creating a serene, focused mood. The color palette emphasizes soft cream and natural wood tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCukxPxUdvJxRuQhY7cKImT-75gxNu2iRInEk9RTOeN45pslDI-KpxkqOrA_oPnGyFL6Tpx9tz2ipHIQnLyvSXjUHVqXOBya0KnD1dESG-Sga25BdJbQewg3VfMd7jV7p414i6AfgGKeMNDg-aa2uR4T0rtSV_ZEFM-xWimpaqThoE1Zt47DCINrN79T0O-4GNMBrmBWJWJqJOEsxnyyRdMHw4LN1X41N1dZYF1MksRVg-oLJwti3L_ZDk3Kvh6LSnICFZrJ6K-IwTc"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">play_arrow</span>
+</div>
+</div>
+<div class="flex flex-col justify-center">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-secondary font-bold text-label-sm font-label-sm">#2 TRENDING</span>
+<span class="w-1 h-1 bg-outline rounded-full"></span>
+<span class="text-on-surface-variant text-[12px]">12h 45m de audio</span>
+</div>
+<h4 class="font-headline-md text-[20px] text-primary group-hover:text-secondary transition-colors">Hábitos Silenciosos</h4>
+<p class="font-body-md text-on-surface-variant line-clamp-2 mt-1">Descubre cómo los pequeños cambios en tu rutina diaria pueden transformar radicalmente tu bienestar mental.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Persistent Audio Player -->
+<div class="fixed bottom-0 left-0 w-full z-[60] glass-player border-t border-outline-variant/10 px-gutter py-4">
+<div class="max-w-container-max mx-auto flex items-center justify-between gap-8">
+<div class="flex items-center gap-4 w-1/3">
+<img alt="Now Playing" class="w-12 h-12 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByrgQn-RBbTxxMsDmj0dYtv-h6582BIOzAnq3PtYjicIlK57d7vAe9Id0sRF8ek_z_q3FuqoMjqXSCeH_0u0DqokNSsyJ921NEvivigFhBMeyfeSX-4ilQsjva8A4n0nbVhH6nwWbvrmWjc9mTt4mvRpUsDUBs2svu_p7mXIddrfm0lkm5rk7DlcmWK4I8JlQeo2PCGdRw4zqiz89_h-WkkcnmRmo6MTwI0SCi8VbDu1r_o1KXVL8ZWDsfmgFW7fvIa-YQ-9GvHkAT"/>
+<div class="hidden sm:block">
+<p class="text-primary font-bold text-[14px] line-clamp-1">El Alquimista del Viento</p>
+<p class="text-on-surface-variant text-[12px]">Capítulo 4: El Primer Encuentro</p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-1 flex-1">
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">skip_previous</span></button>
+<button class="bg-secondary text-on-secondary w-10 h-10 rounded-full flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">skip_next</span></button>
+</div>
+<div class="w-full max-w-md flex items-center gap-3">
+<span class="text-[10px] font-bold text-on-surface-variant">12:45</span>
+<div class="h-1 flex-1 bg-surface-variant rounded-full relative overflow-hidden">
+<div class="absolute left-0 top-0 h-full w-1/3 bg-secondary"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">45:00</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-4 w-1/3">
+<span class="material-symbols-outlined text-on-surface-variant hidden md:block">volume_up</span>
+<div class="w-24 h-1 bg-surface-variant rounded-full relative overflow-hidden hidden md:block">
+<div class="absolute left-0 top-0 h-full w-2/3 bg-primary"></div>
+</div>
+<button class="text-on-surface-variant"><span class="material-symbols-outlined">playlist_play</span></button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bg-surface-container/95 backdrop-blur-lg">
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Inicio</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-label-sm">Explorar</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">book_2</span>
+<span class="font-label-sm text-label-sm">Mi Biblioteca</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">play_circle</span>
+<span class="font-label-sm text-label-sm">Reproductor</span>
+</div>
+</nav>
+<script>
+        // Micro-interactions and subtle effects
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Subtle scale or rotation already handled by Tailwind classes
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        if(searchInput) {
+            searchInput.addEventListener('focus', () => {
+                searchInput.parentElement.classList.add('border-primary');
+                searchInput.parentElement.classList.remove('border-outline-variant/30');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.parentElement.classList.remove('border-primary');
+                searchInput.parentElement.classList.add('border-outline-variant/30');
+            });
+        }
+    </script>
+</body></html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voz &amp; Relato - Reproductor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "background": "#fff8f3",
+                "surface": "#fff8f3",
+                "on-tertiary-fixed": "#1c1c19",
+                "surface-variant": "#e9e1da",
+                "on-secondary-container": "#773311",
+                "inverse-on-surface": "#f8efe8",
+                "primary": "#163428",
+                "on-primary": "#ffffff",
+                "on-secondary-fixed": "#360f00",
+                "surface-container-low": "#faf2eb",
+                "on-tertiary": "#ffffff",
+                "on-background": "#1e1b17",
+                "on-surface": "#1e1b17",
+                "inverse-primary": "#adcebd",
+                "on-error": "#ffffff",
+                "primary-container": "#2d4b3e",
+                "tertiary-fixed-dim": "#c9c6c2",
+                "primary-fixed-dim": "#adcebd",
+                "surface-container-highest": "#e9e1da",
+                "error": "#ba1a1a",
+                "on-tertiary-container": "#b5b3ae",
+                "secondary-fixed": "#ffdbcd",
+                "on-surface-variant": "#424844",
+                "secondary": "#944926",
+                "surface-container-high": "#efe7df",
+                "on-primary-container": "#99baa9",
+                "outline": "#727974",
+                "error-container": "#ffdad6",
+                "surface-tint": "#466557",
+                "surface-dim": "#e0d9d1",
+                "outline-variant": "#c1c8c3",
+                "surface-container-lowest": "#ffffff",
+                "on-primary-fixed-variant": "#2f4d40",
+                "tertiary": "#2f2f2c",
+                "inverse-surface": "#34302b",
+                "secondary-fixed-dim": "#ffb597",
+                "primary-fixed": "#c8ead8",
+                "on-primary-fixed": "#012116",
+                "secondary-container": "#fe9e74",
+                "on-secondary": "#ffffff",
+                "surface-container": "#f5ece5",
+                "tertiary-container": "#464542",
+                "on-error-container": "#93000a",
+                "on-secondary-fixed-variant": "#763311",
+                "on-tertiary-fixed-variant": "#474743",
+                "tertiary-fixed": "#e5e2dd",
+                "surface-bright": "#fff8f3"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "gutter": "24px",
+                "base": "8px",
+                "margin-mobile": "16px",
+                "container-max": "1280px",
+                "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                "display-lg-mobile": ["Libre Caslon Text"],
+                "label-sm": ["Manrope"],
+                "display-lg": ["Libre Caslon Text"],
+                "headline-md": ["Libre Caslon Text"],
+                "body-md": ["Manrope"],
+                "body-lg": ["Manrope"]
+            },
+            "fontSize": {
+                "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        .cover-shadow {
+            box-shadow: 0 20px 50px -10px rgba(22, 52, 40, 0.2);
+        }
+        .glass-player {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 248, 243, 0.8);
+        }
+        .progress-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #944926;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden">
+<!-- Top Navigation Anchor -->
+<header class="bg-background shadow-sm opacity-90 backdrop-blur-md sticky top-0 z-40">
+<nav class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">menu_book</span>
+<span class="font-display-lg text-headline-md text-primary">Voz &amp; Relato</span>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300" href="#">Biblioteca</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300" href="#">Explorar</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300" href="#">Tendencias</a>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80">account_circle</span>
+</div>
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary">more_vert</span>
+</div>
+</nav>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12 flex flex-col md:flex-row gap-12 items-center md:items-start min-h-[calc(100vh-160px)]">
+<!-- Center Book Cover Section -->
+<section class="flex-1 flex flex-col items-center justify-center w-full max-w-xl mx-auto space-y-8 animate-fade-in">
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary/5 rounded-[2rem] blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
+<img class="w-64 h-96 md:w-80 md:h-[30rem] object-cover rounded-lg cover-shadow relative z-10 transition-transform duration-500 hover:scale-[1.02]" data-alt="A high-quality studio photograph of a classic cloth-bound book with intricate gold foil lettering on a deep forest green cover. The book is set against a soft, cream-colored parchment background with warm, diffused cinematic lighting. The atmosphere is scholarly and sophisticated, reflecting a premium digital library aesthetic with rich textures and elegant minimalist composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWa71OPrSHMxrYFU8b0LsQlcMvNnBZobNRiAySvtr5Cu0N5FsM_cVmIXBvLAoUnB4W2SH84Hjif3jnXZNOwhuU2xGbHNNAfD2uG5QXpE5XJjPLNSvKlOeF3xEQILQOpERcGuX8-PGzmKUVO7xXLBkr326IT38Sjy1DRAM2iDiDMK6o2aSocVXLC3y8Fh7asn8UQxeusdT2ELeV9pTlgE6B3ethjx18KuB9M2qf0kLN5c3Qp-BsICa2ORRLrpINj4tNdLJm2NsMiBym"/>
+</div>
+<div class="text-center space-y-2 relative z-10">
+<h1 class="font-display-lg text-display-lg-mobile md:text-headline-md text-on-background tracking-tight">Cien Años de Soledad</h1>
+<p class="font-body-lg text-on-surface-variant italic">Gabriel García Márquez</p>
+<div class="flex gap-2 justify-center mt-4">
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full font-label-sm text-[10px] uppercase tracking-wider">Realismo Mágico</span>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full font-label-sm text-[10px] uppercase tracking-wider">Literatura</span>
+</div>
+</div>
+</section>
+<!-- Player Controls & Chapter List Sidebar -->
+<aside class="w-full md:w-96 flex flex-col gap-8 bg-surface-container-low p-6 md:p-8 rounded-xl shadow-sm h-fit">
+<!-- Controls Interface -->
+<div class="space-y-8">
+<!-- Progress Bar Section -->
+<div class="space-y-3">
+<div class="flex justify-between font-label-sm text-on-surface-variant">
+<span>24:15</span>
+<span>-42:10</span>
+</div>
+<div class="relative w-full h-1.5 bg-surface-variant rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-secondary w-[35%] rounded-full"></div>
+<input class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer progress-thumb" max="100" min="0" type="range" value="35"/>
+</div>
+</div>
+<!-- Main Player Buttons -->
+<div class="flex items-center justify-between px-2">
+<button class="text-on-surface-variant hover:text-primary transition-colors" title="Velocidad">
+<span class="font-label-sm font-bold text-sm">1.25x</span>
+</button>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-secondary transition-all active:scale-90">
+<span class="material-symbols-outlined text-3xl">replay_30</span>
+</button>
+<button class="w-16 h-16 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg hover:bg-primary-container transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform">pause</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-all active:scale-90">
+<span class="material-symbols-outlined text-3xl">forward_30</span>
+</button>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors" title="Temporizador">
+<span class="material-symbols-outlined">timer</span>
+</button>
+</div>
+<!-- Secondary Actions -->
+<div class="flex justify-around pt-4 border-t border-outline-variant">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="font-label-sm text-[10px]">Marcador</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">share</span>
+<span class="font-label-sm text-[10px]">Compartir</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<span class="font-label-sm text-[10px]">Capítulos</span>
+</button>
+</div>
+</div>
+<!-- Chapter List (Visual Focus) -->
+<div class="mt-4 space-y-4">
+<h3 class="font-headline-md text-primary text-lg">Capítulos</h3>
+<div class="space-y-1 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+<div class="p-3 bg-primary-fixed/20 rounded-lg flex justify-between items-center cursor-pointer border-l-4 border-primary">
+<div>
+<p class="font-body-md font-bold text-primary">Capítulo 1: El Galeón</p>
+<p class="text-xs text-on-surface-variant">24:15 / 66:00</p>
+</div>
+<span class="material-symbols-outlined text-primary text-xl">graphic_eq</span>
+</div>
+<div class="p-3 hover:bg-surface-variant rounded-lg flex justify-between items-center cursor-pointer transition-colors">
+<div>
+<p class="font-body-md text-on-surface-variant">Capítulo 2: Macondo</p>
+<p class="text-xs text-outline">58:20</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-xl">lock</span>
+</div>
+<div class="p-3 hover:bg-surface-variant rounded-lg flex justify-between items-center cursor-pointer transition-colors opacity-60">
+<div>
+<p class="font-body-md text-on-surface-variant">Capítulo 3: La Peste</p>
+<p class="text-xs text-outline">45:10</p>
+</div>
+</div>
+<div class="p-3 hover:bg-surface-variant rounded-lg flex justify-between items-center cursor-pointer transition-colors opacity-60">
+<div>
+<p class="font-body-md text-on-surface-variant">Capítulo 4: El Alquimista</p>
+<p class="text-xs text-outline">72:00</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe md:hidden bg-surface-container/95 backdrop-blur-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm">Inicio</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm">Explorar</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">book_2</span>
+<span class="font-label-sm">Mi Biblioteca</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+<span class="font-label-sm">Reproductor</span>
+</div>
+</nav>
+<!-- Background Atmospheric Effect -->
+<div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[150px]"></div>
+</div>
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.add('scale-95');
+                setTimeout(() => this.classList.remove('scale-95'), 150);
+            });
+        });
+
+        // Toggle Chapter Active State (Mock)
+        const chapters = document.querySelectorAll('.custom-scrollbar > div');
+        chapters.forEach(chapter => {
+            chapter.addEventListener('click', () => {
+                chapters.forEach(c => {
+                    c.classList.remove('bg-primary-fixed/20', 'border-l-4', 'border-primary');
+                    c.querySelector('p').classList.remove('font-bold', 'text-primary');
+                });
+                chapter.classList.add('bg-primary-fixed/20', 'border-l-4', 'border-primary');
+                chapter.querySelector('p').classList.add('font-bold', 'text-primary');
+            });
+        });
+    </script>
+</body></html>

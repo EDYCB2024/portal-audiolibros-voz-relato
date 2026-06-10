@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voz &amp; Relato - Detalle de Audiolibro</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#fff8f3",
+                    "surface": "#fff8f3",
+                    "on-tertiary-fixed": "#1c1c19",
+                    "surface-variant": "#e9e1da",
+                    "on-secondary-container": "#773311",
+                    "inverse-on-surface": "#f8efe8",
+                    "primary": "#163428",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed": "#360f00",
+                    "surface-container-low": "#faf2eb",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#1e1b17",
+                    "on-surface": "#1e1b17",
+                    "inverse-primary": "#adcebd",
+                    "on-error": "#ffffff",
+                    "primary-container": "#2d4b3e",
+                    "tertiary-fixed-dim": "#c9c6c2",
+                    "primary-fixed-dim": "#adcebd",
+                    "surface-container-highest": "#e9e1da",
+                    "error": "#ba1a1a",
+                    "on-tertiary-container": "#b5b3ae",
+                    "secondary-fixed": "#ffdbcd",
+                    "on-surface-variant": "#424844",
+                    "secondary": "#944926",
+                    "surface-container-high": "#efe7df",
+                    "on-primary-container": "#99baa9",
+                    "outline": "#727974",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#466557",
+                    "surface-dim": "#e0d9d1",
+                    "outline-variant": "#c1c8c3",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#2f4d40",
+                    "tertiary": "#2f2f2c",
+                    "inverse-surface": "#34302b",
+                    "secondary-fixed-dim": "#ffb597",
+                    "primary-fixed": "#c8ead8",
+                    "on-primary-fixed": "#012116",
+                    "secondary-container": "#fe9e74",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#f5ece5",
+                    "tertiary-container": "#464542",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#763311",
+                    "on-tertiary-fixed-variant": "#474743",
+                    "tertiary-fixed": "#e5e2dd",
+                    "surface-bright": "#fff8f3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "base": "8px",
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Libre Caslon Text"],
+                    "label-sm": ["Manrope"],
+                    "display-lg": ["Libre Caslon Text"],
+                    "headline-md": ["Libre Caslon Text"],
+                    "body-md": ["Manrope"],
+                    "body-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .scroll-hide::-webkit-scrollbar { display: none; }
+      .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      .glass-player {
+        backdrop-filter: blur(12px);
+        background: rgba(245, 236, 229, 0.85);
+      }
+      
+      .book-spine-glow {
+        box-shadow: inset 10px 0 15px -10px rgba(0,0,0,0.3), inset -1px 0 2px rgba(255,255,255,0.2);
+      }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Navigation Bar -->
+<header class="bg-background shadow-sm opacity-90 backdrop-blur-md sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-display-lg text-headline-md text-primary">Voz &amp; Relato</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-primary border-b-2 border-primary font-bold pb-1 font-body-md text-body-md" href="#">Biblioteca</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300 font-body-md text-body-md" href="#">Explorar</a>
+<a class="text-on-surface-variant font-medium hover:text-secondary transition-colors duration-300 font-body-md text-body-md" href="#">Tendencias</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-all" data-icon="search">search</button>
+<button class="material-symbols-outlined text-primary hover:text-secondary transition-all" data-icon="account_circle">account_circle</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-20">
+<!-- Hero Section: Book Details -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+<!-- Left: Large Book Cover -->
+<div class="md:col-span-5 lg:col-span-4 group relative">
+<div class="relative rounded-lg overflow-hidden shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
+<img alt="Portada de Audiolibro" class="w-full h-auto aspect-[2/3] object-cover" data-alt="A high-quality, professional photography of a vintage leather-bound book cover featuring intricate gold leaf typography and botanical illustrations. The book is set against a soft, creamy parchment background with elegant atmospheric lighting that highlights the texture of the leather and the shine of the gold. The aesthetic is scholarly, sophisticated, and deeply rooted in classical literary tradition, using a color palette of deep forest green, rich terracotta, and warm cream." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxaoUlYyiMw1KVguSKtVIwA3__QBFdZ9z7_bTWFbSHeV3Vcj-lV6dn300lOlVEPhk3pn6JCnZ0hk0i7k7Av7HdoQZ_ZjEfeE8eu2lnp0k4PEVmWc7t8HAiLpF2AfCBmDrjiQ-ixF8g3vzNgIzcQxPaKBqBKDYOb96Iv7_G-ecqe5Bc13c3ldvhLPyni7W8B_R4O1AEHCQ3ejuU_8cLxAxfGpXwDtZXjEcB95cbFxTwAeZ28ezqr00AqwqGuU1ZJtLWa6vwR0_4IwH7"/>
+<div class="absolute inset-0 book-spine-glow pointer-events-none"></div>
+</div>
+<!-- Interactive Badge -->
+<div class="absolute -top-4 -right-4 bg-secondary text-on-secondary px-6 py-2 rounded-full font-label-sm text-label-sm shadow-lg rotate-3">
+                    Bestseller
+                </div>
+</div>
+<!-- Right: Content & CTA -->
+<div class="md:col-span-7 lg:col-span-8 flex flex-col h-full justify-center">
+<nav class="flex items-center gap-2 mb-6 font-label-sm text-label-sm text-on-surface-variant opacity-70">
+<span>Audiolibros</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Clásicos Modernos</span>
+</nav>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-2 leading-tight">
+                    El Susurro de los Siglos
+                </h1>
+<div class="flex flex-wrap items-center gap-x-6 gap-y-2 mb-8">
+<p class="font-body-lg text-body-lg text-on-surface">
+<span class="text-on-surface-variant font-light">Escrito por</span>
+<span class="font-bold border-b border-outline-variant">Elena Villareal</span>
+</p>
+<p class="font-body-lg text-body-lg text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">record_voice_over</span>
+<span class="text-on-surface-variant font-light">Narrado por</span>
+<span class="font-bold border-b border-outline-variant">Marco Antonio Solís</span>
+</p>
+</div>
+<div class="flex items-center gap-4 mb-10">
+<div class="flex text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star_half</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(1,248 reseñas)</span>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-3 py-1 rounded-full text-primary">14h 32m</span>
+</div>
+<div class="flex flex-wrap gap-4 mb-12">
+<button class="bg-primary text-on-primary px-10 py-4 rounded-xl font-body-md text-body-md font-bold flex items-center gap-3 shadow-md hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        Escuchar Muestra
+                    </button>
+<button class="border-2 border-primary text-primary hover:bg-surface-container-low px-10 py-4 rounded-xl font-body-md text-body-md font-bold transition-all active:scale-95">
+                        Añadir a Biblioteca — $18.99
+                    </button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-outline-variant">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Idioma</p>
+<p class="font-body-md text-body-md font-bold text-primary">Español (Castellano)</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Categoría</p>
+<p class="font-body-md text-body-md font-bold text-primary">Ficción Histórica</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Editor</p>
+<p class="font-body-md text-body-md font-bold text-primary">Relatos Maestros</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Publicado</p>
+<p class="font-body-md text-body-md font-bold text-primary">Octubre 2023</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Detailed Info Section (Asymmetric Bento) -->
+<section class="mt-24 grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left Side: Synopsis & Narrator -->
+<div class="lg:col-span-8 space-y-16">
+<!-- Synopsis -->
+<div class="bg-surface-container-low p-8 md:p-12 rounded-3xl shadow-sm border border-surface-variant">
+<h2 class="font-headline-md text-headline-md text-primary mb-6">Sinopsis Detallada</h2>
+<div class="font-body-lg text-body-lg text-on-surface space-y-4 leading-relaxed opacity-90">
+<p>
+                            En el corazón de una España olvidada, "El Susurro de los Siglos" nos transporta a una crónica generacional donde los secretos familiares pesan más que el plomo. Elena Villareal despliega una prosa lírica que cobra vida propia a través de la interpretación magistral de Marco Antonio Solís.
+                        </p>
+<p>
+                            La historia comienza con el hallazgo de un diario vellum en el sótano de una antigua casona en Segovia. A medida que las páginas se pasan, el oyente se sumerge en un laberinto de amores prohibidos, traiciones políticas y la búsqueda incansable de una verdad que ha permanecido oculta por más de trescientos años.
+                        </p>
+</div>
+<div class="mt-8 flex gap-3 flex-wrap">
+<span class="bg-primary/5 text-primary-fixed-dim border border-primary/10 px-4 py-1.5 rounded-full font-label-sm text-label-sm">#Misterio</span>
+<span class="bg-primary/5 text-primary-fixed-dim border border-primary/10 px-4 py-1.5 rounded-full font-label-sm text-label-sm">#SagaFamiliar</span>
+<span class="bg-primary/5 text-primary-fixed-dim border border-primary/10 px-4 py-1.5 rounded-full font-label-sm text-label-sm">#EspañaHistórica</span>
+</div>
+</div>
+<!-- Narrator Bio -->
+<div class="flex flex-col md:flex-row gap-8 items-center bg-white p-8 rounded-3xl shadow-md">
+<div class="shrink-0">
+<img alt="Narrador Marco Antonio Solís" class="w-32 h-32 md:w-48 md:h-48 rounded-2xl object-cover grayscale hover:grayscale-0 transition-all duration-500 shadow-lg" data-alt="A sophisticated close-up portrait of a mature man with distinguished grey hair and expressive features, wearing a dark turtleneck. He is in a professional recording studio setting with a high-end vintage microphone softly blurred in the background. The lighting is dramatic and warm, creating a moody, literary atmosphere with deep shadows and soft highlights on his thoughtful expression, consistent with a premium audiobook narrator persona." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7qtfn9D7Mq4XL2Meg36Hs8K-JBNz3qyiLwCRwIUBWMCyWqz-yXAKK5NU7UOS2fbAgd7Ifag_vV5dcD5pmKQWXjNPk_PyZ6ePwtUVIGLX7RHQCb3E87Oq-6tvpr_c06cAwwJgWhEIhem0EhpIwdcJQHgn0vAFvmCOp1TqCgiaj8ZQN8MCd4BR6Fu37k6cbqCMV-tMp8k_ygMfqRbYVmnnp7jzcngFeEJ7NUf3eweXp_eZBL9bceFGP8FgT1ENeZZ8YGCUj-x3slLg2"/>
+</div>
+<div class="text-center md:text-left">
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Sobre el Narrador</h3>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-4">"La voz que da vida al alma del papel."</p>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                            Marco Antonio Solís es un galardonado actor de voz con más de dos décadas de experiencia. Conocido por su tono profundo y aterciopelado, ha narrado más de cien clásicos de la literatura hispana, ganando el premio 'Voz de Oro' en tres ocasiones consecutivas por su versatilidad y capacidad de inmersión emocional.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Right Side: Reviews & Ratings -->
+<div class="lg:col-span-4 space-y-8">
+<div class="bg-surface-container-high p-8 rounded-3xl sticky top-28">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-headline-md text-headline-md text-primary">Reseñas</h2>
+<button class="text-secondary font-bold font-label-sm text-label-sm hover:underline">Escribir una</button>
+</div>
+<!-- Review Card 1 -->
+<div class="border-b border-outline-variant pb-6 mb-6">
+<div class="flex justify-between items-start mb-2">
+<span class="font-body-md text-body-md font-bold text-primary">Isabel R.</span>
+<div class="flex text-secondary scale-75 origin-right">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                            "Inolvidable. La combinación de la pluma de Elena y la voz de Marco es sencillamente hipnótica. No pude dejar de escuchar."
+                        </p>
+</div>
+<!-- Review Card 2 -->
+<div class="border-b border-outline-variant pb-6 mb-6">
+<div class="flex justify-between items-start mb-2">
+<span class="font-body-md text-body-md font-bold text-primary">Javier M.</span>
+<div class="flex text-secondary scale-75 origin-right">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                            "Excelente producción sonora. Los matices que aporta el narrador a cada personaje son increíbles. Muy recomendado."
+                        </p>
+</div>
+<!-- Review Card 3 -->
+<div class="pb-2">
+<div class="flex justify-between items-start mb-2">
+<span class="font-body-md text-body-md font-bold text-primary">Clara G.</span>
+<div class="flex text-secondary scale-75 origin-right">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
+                            "Una obra maestra del formato audio. He redescubierto el placer de que me cuenten una buena historia."
+                        </p>
+</div>
+<button class="w-full mt-6 py-3 text-center font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors border-t border-outline-variant pt-6">
+                        Ver todas las reseñas
+                    </button>
+</div>
+</div>
+</section>
+<!-- Recommendations (Horizontal Scroll) -->
+<section class="mt-24 mb-12">
+<h2 class="font-display-lg text-headline-md text-primary mb-8">También te podría gustar</h2>
+<div class="flex gap-6 overflow-x-auto scroll-hide pb-8">
+<!-- Rec Card 1 -->
+<div class="min-w-[200px] group cursor-pointer">
+<div class="aspect-[2/3] rounded-lg overflow-hidden shadow-md mb-4 group-hover:shadow-xl transition-all">
+<img class="w-full h-full object-cover" data-alt="Cover of a classic mystery novel with a misty forest and an old manor house, elegant forest green and gold typography, literary and moody." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfus_fr6_0Wpcob5YW4njuvTy0a1x_J7ihC5F8F4JkRy-K6utK-CmJcJf8d1LJcHrf9lJQvMRqvLHcENbBRm541Oy2-BTDxDauYFQO5arx_fsiENZ3EsC4cVHNHNdc0tR6nvGGRgdCxorZMTlXfLMcwB3j8CB-xrG2xwbw6TR0BZJbW_rXKDr_KPy51PiV5BPGHAyfRzTmIHfFRn6-R4PhbJFp6kKmEXoZoUlCf9RUtVXnkywUdJLuXuJzF-WCWJ6RDHLpEfnmrIvT"/>
+</div>
+<h4 class="font-body-md text-body-md font-bold text-primary line-clamp-1">Sombras del Destino</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Lucía M. Ferrer</p>
+</div>
+<!-- Rec Card 2 -->
+<div class="min-w-[200px] group cursor-pointer">
+<div class="aspect-[2/3] rounded-lg overflow-hidden shadow-md mb-4 group-hover:shadow-xl transition-all">
+<img class="w-full h-full object-cover" data-alt="Cover of a historical drama set in old Seville, featuring terracotta archways and dramatic sunset lighting, sophisticated and warm." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBacMcZ59r2_ReHTjDojGaKMeUZtzaFfVkH4ZkXmw9SvO4vfoV01gC9mMgI82fZaTyMvWfqypuRBTTcusD4KtfyRVngSzeS5bTH04kMDfqxTPzkdjduVdXXsRZ0poS7cdWu-tsw3SZxTCibYR9QlUmAsXPkCPywKkUcvWa8iu-sUA7KptlibXslxpOkqpz_JPFEL60yvEGkEC3Xcs0hemGaYzZN4O40iSk8esYsTVI2PDkqO5IHGc_AAwTDA8-S7PZli53JDri1YcUO"/>
+</div>
+<h4 class="font-body-md text-body-md font-bold text-primary line-clamp-1">El Patio de los Naranjos</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Andrés De Lucca</p>
+</div>
+<!-- Rec Card 3 -->
+<div class="min-w-[200px] group cursor-pointer">
+<div class="aspect-[2/3] rounded-lg overflow-hidden shadow-md mb-4 group-hover:shadow-xl transition-all">
+<img class="w-full h-full object-cover" data-alt="Abstract literary cover with floating vellum pages and ink splatters, artistic and minimal, forest green and cream palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu9tvAzDvfG3OXVffUO2ZLU-f1s6Dy8dNjsxtDgK1BxLOtW2EF86VtMrJdG4nLbj01MSyKRkgrMY6Lm9H14pXR-9DF14cZiPGV3DFFA8ibiIgr2QArYaMahQf7fSfarAcNfsnwKbkA4hEIwowUiXJRW2uJdGIGfl_pxEfCvTlb7Tz6DxtRzchcb1TfifEl-dF9gCGpt5eDSNx81kEVsvi5Rls7ATq2mRzVCknzTcWVZFmE44uw7ORagQNbGCr4uxC7TUoVgWQk1Adp"/>
+</div>
+<h4 class="font-body-md text-body-md font-bold text-primary line-clamp-1">Ecos del Silencio</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Marta Ruiz</p>
+</div>
+<!-- Rec Card 4 -->
+<div class="min-w-[200px] group cursor-pointer">
+<div class="aspect-[2/3] rounded-lg overflow-hidden shadow-md mb-4 group-hover:shadow-xl transition-all">
+<img class="w-full h-full object-cover" data-alt="Classic poetry book cover with delicate pressed flowers and elegant serif font, warm parchment feel, scholarly aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUYyuHJQLEQ_unzrOt6fyssz7YjmUsYKeQYTvxM-WyT__Ogwn7VRtU9y3duAORu-6xu7bkZrF89sUSPKyuNcN_2KR8nhRR08j_hBSB2_cQv9oe_yWcVjUfQAEx4zoW1AoMRtEGAv2YQbhjeoGIkZcEvQWtr-fNg2yhwrzfrVX8z8na739-XPJPgp8xbz4dWth3xyl6oz1Xacud6GT3iSE4Svp2Sp7jvml0QuKlyFNpU9oM0bp87CplLRgfH0EMlxRtSWlBu8D8ZZn9"/>
+</div>
+<h4 class="font-body-md text-body-md font-bold text-primary line-clamp-1">Antología del Ayer</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Varios Autores</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Persistent Audio Player -->
+<div class="fixed bottom-0 left-0 w-full z-[60] px-4 pb-4">
+<div class="max-w-container-max mx-auto glass-player rounded-2xl shadow-2xl flex items-center p-4 gap-4 md:gap-8">
+<!-- Book Info -->
+<div class="flex items-center gap-3 shrink-0">
+<img alt="Thumbnail" class="w-12 h-12 rounded-lg object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaieGKzsiuPFyA6rgqZj7w5xHS6VrFVPSCaLkkg8TGXKBQoKz4FWati-9pQ7Hou_VWVZvV5mSx8H4ZUczkJnuCFZwDNEEEBtKBb4D93b8x-TDFZlJ8pRCaLnxTmus53NjaTaaLxvqx1w6HyDeJ-1Ukecko0slrMACCBBDjk9xKjZ8NJx6ldlXFIRwVWpFBd98XUKM2xKI94eJUKgpbl4XytJaP04w9GyvXOmhFuC1mfax2mlgJWa4MtcCsUhhN8HBODes2MZqNo3Jk"/>
+<div class="hidden sm:block">
+<p class="font-body-md text-body-md font-bold text-primary leading-none">El Susurro de los Siglos</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Muestra - Cap. 1</p>
+</div>
+</div>
+<!-- Controls -->
+<div class="flex flex-col flex-grow items-center">
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-primary-fixed-dim hover:text-primary transition-colors">replay_10</button>
+<button class="bg-secondary text-on-secondary w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+<button class="material-symbols-outlined text-primary-fixed-dim hover:text-primary transition-colors">forward_30</button>
+</div>
+<!-- Progress Bar -->
+<div class="w-full max-w-md mt-2 flex items-center gap-2">
+<span class="font-label-sm text-[10px] text-on-surface-variant w-8">0:00</span>
+<div class="flex-grow h-1 bg-surface-variant rounded-full overflow-hidden cursor-pointer relative">
+<div class="absolute top-0 left-0 h-full bg-secondary w-0 group-hover:h-2 transition-all"></div>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant w-8">4:30</span>
+</div>
+</div>
+<!-- Extra Actions -->
+<div class="hidden md:flex items-center gap-4 text-primary">
+<button class="material-symbols-outlined">speed</button>
+<button class="material-symbols-outlined">playlist_play</button>
+<button class="material-symbols-outlined">volume_up</button>
+</div>
+</div>
+</div>
+<!-- Mobile Bottom Navigation (Visible only on mobile) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bg-surface-container/95 backdrop-blur-lg rounded-t-xl border-t border-surface-variant">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-tertiary-container">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Inicio</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-label-sm">Explorar</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1">
+<span class="material-symbols-outlined">book_2</span>
+<span class="font-label-sm text-label-sm">Mi Biblioteca</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">play_circle</span>
+<span class="font-label-sm text-label-sm">Reproductor</span>
+</div>
+</nav>
+<script>
+        // Simple micro-interaction for the play button in the sample
+        document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+            icon.addEventListener('click', function() {
+                if(this.innerText === 'play_arrow' && this.parentElement.classList.contains('bg-secondary')) {
+                    this.innerText = 'pause';
+                } else if(this.innerText === 'pause' && this.parentElement.classList.contains('bg-secondary')) {
+                    this.innerText = 'play_arrow';
+                }
+            });
+        });
+    </script>
+</body></html>
