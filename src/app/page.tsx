@@ -59,6 +59,20 @@ export default function Home() {
   const [minRating, setMinRating] = React.useState<number>(0);
   const [activeTab, setActiveTab] = React.useState<"lectura" | "capitulos" | "ajustes">("lectura"); // For mobile reader view
 
+  // Persist current section in localStorage
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const savedSection = localStorage.getItem("vyr_currentSection") as any;
+    if (savedSection && ["inicio", "explorar", "detalles", "reproductor", "biblioteca"].includes(savedSection)) {
+      setCurrentSection(savedSection);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem("vyr_currentSection", currentSection);
+  }, [currentSection]);
+
   const handleFileSelect = (file: File) => {
     loadPdf(file);
     setCurrentSection("biblioteca");
@@ -1019,13 +1033,15 @@ export default function Home() {
                       </button>
 
                       <div 
-                        onClick={() => {
-                          loadLibraryBook(book);
-                          setCurrentSection("reproductor");
-                          setActiveTab("lectura");
-                          setTimeout(() => {
-                            playSpeech();
-                          }, 100);
+                        onClick={async () => {
+                          const success = await loadLibraryBook(book);
+                          if (success) {
+                            setCurrentSection("reproductor");
+                            setActiveTab("lectura");
+                            setTimeout(() => {
+                              playSpeech();
+                            }, 100);
+                          }
                         }}
                         className="cursor-pointer space-y-3 flex-grow"
                       >
@@ -1060,15 +1076,17 @@ export default function Home() {
 
                       <div className="pt-3 border-t border-outline-variant/10 mt-3 flex gap-2">
                         <button
-                          onClick={() => {
-                            loadLibraryBook(book);
+                        onClick={async () => {
+                          const success = await loadLibraryBook(book);
+                          if (success) {
                             setCurrentSection("reproductor");
                             setActiveTab("lectura");
                             setTimeout(() => {
                               playSpeech();
                             }, 100);
-                          }}
-                          className="flex-1 bg-primary text-on-primary py-1.5 rounded-lg font-body text-[10px] font-bold flex items-center justify-center gap-1 hover:opacity-95 active:scale-95 transition-all cursor-pointer"
+                          }
+                        }}
+                        className="flex-1 bg-primary text-on-primary py-1.5 rounded-lg font-body text-[10px] font-bold flex items-center justify-center gap-1 hover:opacity-95 active:scale-95 transition-all cursor-pointer"
                         >
                           <span className="material-symbols-outlined text-xs">headphones</span>
                           <span>Leer</span>

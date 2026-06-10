@@ -53,6 +53,7 @@ export interface BookInfo {
 export interface LibraryBook extends BookInfo {
   id: string;
   addedAt: number;
+  pdfUrl?: string;
 }
 
 export function useAudioBook() {
@@ -77,10 +78,83 @@ export function useAudioBook() {
   const [sleepTimer, setSleepTimer] = useState<number | null>(null);
   const [timerRemaining, setTimerRemaining] = useState<number | null>(null);
 
+  const isLoadedRef = useRef(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [chapterElapsedSeconds, setChapterElapsedSeconds] = useState(0);
+
+  // Sync virtual books with Supabase Storage files
+  const syncSupabaseLibrary = async (localBooks: LibraryBook[]) => {
+    if (!supabase) return;
+    try {
+      console.log("Sincronizando biblioteca con Supabase Storage...");
+      const { data: files, error } = await supabase.storage
+        .from("books")
+        .list("", { 
+          limit: 100,
+          sortBy: { column: "created_at", order: "desc" }
+        });
+
+      if (error) {
+        console.error("Error al listar archivos de Supabase Storage:", error);
+        return;
+      }
+
+      if (!files || files.length === 0) {
+        return;
+      }
+
+      const syncedBooks: LibraryBook[] = [];
+
+      for (const file of files) {
+        if (file.name === ".emptyFolderPlaceholder") continue;
+        
+        // 1. Check if we already have this book parsed locally in IndexedDB
+        const existingLocalBook = localBooks.find(b => b.id === file.name);
+
+        if (existingLocalBook && existingLocalBook.chapters && existingLocalBook.chapters.length > 0) {
+          syncedBooks.push(existingLocalBook);
+        } else {
+          // 2. If it's a cloud book not yet downloaded/parsed locally, create a virtual placeholder
+          const cleanName = file.name.replace(/^\d+_/, "").replace(/\.pdf$/i, "").replace(/[_-]/g, " ");
+          
+          // Generate public PDF URL
+          const { data: { publicUrl: pdfUrl } } = supabase.storage
+            .from("books")
+            .getPublicUrl(file.name);
+
+          // Generate public Cover URL
+          const coverFileName = file.name.replace(/\.[^/.]+$/, "") + "_cover.jpg";
+          const { data: { publicUrl: coverUrl } } = supabase.storage
+            .from("covers")
+            .getPublicUrl(coverFileName);
+
+          const virtualBook: LibraryBook = {
+            id: file.name,
+            title: cleanName,
+            author: "Archivo PDF en BD",
+            coverUrl: coverUrl,
+            pdfUrl: pdfUrl,
+            chapters: [], // Empty chapters, will parse when user clicks Read
+            addedAt: file.created_at ? new Date(file.created_at).getTime() : Date.now()
+          };
+          
+          syncedBooks.push(virtualBook);
+        }
+      }
+
+      // Keep pure local books that are not in Supabase
+      const pureLocalBooks = localBooks.filter(lb => !files.some(f => f.name === lb.id));
+      const finalBooks = [...syncedBooks, ...pureLocalBooks];
+
+      // Sort by added date
+      finalBooks.sort((a, b) => b.addedAt - a.addedAt);
+      setUploadedBooks(finalBooks);
+    } catch (err) {
+      console.error("Fallo inesperado al sincronizar biblioteca:", err);
+    }
+  };
 
   // Load voices on mount and restore saved voice/progress
   useEffect(() => {
@@ -117,6 +191,7 @@ export function useAudioBook() {
 
     // 3. Load large objects asynchronously from IndexedDB
     const loadLargeCachedData = async () => {
+      let localBooks: LibraryBook[] = [];
       try {
         const savedBook = await getDbItem<LibraryBook>("vyr_bookInfo");
         if (savedBook) {
@@ -125,11 +200,20 @@ export function useAudioBook() {
         
         const savedUploadedBooks = await getDbItem<LibraryBook[]>("vyr_uploadedBooks");
         if (savedUploadedBooks) {
+          localBooks = savedUploadedBooks;
           setUploadedBooks(savedUploadedBooks);
         }
       } catch (err) {
         console.error("Error loading large cache from IndexedDB:", err);
       }
+
+      // Sync with Supabase Storage if available
+      if (supabase) {
+        await syncSupabaseLibrary(localBooks);
+      }
+
+      // Mark as fully loaded/initialized
+      isLoadedRef.current = true;
     };
     loadLargeCachedData();
 
@@ -186,7 +270,7 @@ export function useAudioBook() {
 
   // Save settings and progress to IndexedDB & localStorage
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !isLoadedRef.current) return;
     if (bookInfo) {
       setDbItem("vyr_bookInfo", bookInfo).catch(err => 
         console.error("Failed to save bookInfo to IndexedDB:", err)
@@ -201,7 +285,7 @@ export function useAudioBook() {
   }, [bookInfo]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !isLoadedRef.current) return;
     setDbItem("vyr_uploadedBooks", uploadedBooks).catch(err => 
       console.error("Failed to save uploadedBooks to IndexedDB:", err)
     );
@@ -359,11 +443,13 @@ export function useAudioBook() {
     try {
       // 1. Upload PDF to Supabase Storage if available
       let pdfCloudUrl: string | null = null;
+      let dbFileName: string | null = null;
       if (supabase) {
         try {
           setProgress(10);
           const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
           const fileName = `${Date.now()}_${cleanName}`;
+          dbFileName = fileName;
           const filePath = `${fileName}`;
           
           const { data, error } = await supabase.storage
@@ -481,12 +567,13 @@ export function useAudioBook() {
       });
 
       const title = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
-      const bookId = `pdf-${Date.now()}`;
+      const bookId = dbFileName || `pdf-${Date.now()}`;
       const info: LibraryBook = {
         id: bookId,
         title,
-        author: "Archivo PDF Subido",
+        author: supabase ? "Archivo PDF en BD" : "Archivo PDF Subido",
         coverUrl,
+        pdfUrl: pdfCloudUrl || undefined,
         chapters: formattedChapters,
         addedAt: Date.now()
       };
@@ -762,13 +849,96 @@ export function useAudioBook() {
     setChapterElapsedSeconds(0);
   };
 
-  // Load an uploaded book from the library
-  const loadLibraryBook = (book: LibraryBook) => {
-    setBookInfo(book);
-    setCurrentChapterIndex(0);
-    setCurrentSentenceIndex(0);
-    setIsPlaying(false);
-    setChapterElapsedSeconds(0);
+  // Load an uploaded book from the library (asynchronously downloading and parsing it if chapters are missing)
+  const loadLibraryBook = async (book: LibraryBook): Promise<boolean> => {
+    if (book.chapters && book.chapters.length > 0) {
+      setBookInfo(book);
+      setCurrentChapterIndex(0);
+      setCurrentSentenceIndex(0);
+      setIsPlaying(false);
+      setChapterElapsedSeconds(0);
+      return true;
+    }
+
+    if (!book.pdfUrl) {
+      alert("Este libro no tiene contenido local ni URL en la nube para descargar.");
+      return false;
+    }
+
+    setIsLoading(true);
+    setProgress(5);
+    try {
+      console.log(`Descargando y procesando PDF de Supabase: ${book.pdfUrl}`);
+      
+      setProgress(15);
+      const response = await fetch(book.pdfUrl);
+      if (!response.ok) {
+        throw new Error(`Error al descargar PDF (Status: ${response.status})`);
+      }
+      
+      setProgress(30);
+      const arrayBuffer = await response.arrayBuffer();
+      
+      setProgress(45);
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      
+      setProgress(55);
+      const maxPages = pdf.numPages;
+      let fullText = "";
+      
+      for (let i = 1; i <= maxPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        const pageText = content.items
+          .map((item: any) => item.str)
+          .join(" ");
+        
+        fullText += pageText + "\n";
+        setProgress(Math.floor(55 + (i / maxPages) * 35));
+      }
+      
+      setProgress(95);
+      
+      const rawChapters = segmentChapters(fullText);
+      const formattedChapters: Chapter[] = rawChapters.map((rc, idx) => {
+        const sentences = splitSentences(rc.text);
+        const words = rc.text.split(/\s+/).length;
+        const durationMinutes = Math.max(1, Math.round(words / 150));
+        
+        return {
+          id: idx + 1,
+          title: rc.title,
+          text: rc.text,
+          sentences,
+          durationMinutes
+        };
+      });
+
+      const completeBook: LibraryBook = {
+        ...book,
+        chapters: formattedChapters
+      };
+
+      setBookInfo(completeBook);
+      setUploadedBooks(prev => {
+        const updated = prev.map(b => b.id === book.id ? completeBook : b);
+        return updated;
+      });
+      
+      setCurrentChapterIndex(0);
+      setCurrentSentenceIndex(0);
+      setIsPlaying(false);
+      setChapterElapsedSeconds(0);
+      
+      setProgress(100);
+      setTimeout(() => setIsLoading(false), 500);
+      return true;
+    } catch (err) {
+      console.error("Error al descargar y procesar PDF desde la nube:", err);
+      alert("No se pudo descargar y procesar el libro desde la nube. Intenta de nuevo.");
+      setIsLoading(false);
+      return false;
+    }
   };
 
   // Delete a book from the library
