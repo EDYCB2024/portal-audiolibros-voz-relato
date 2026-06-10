@@ -14,6 +14,7 @@ export default function Home() {
     isLoading,
     progress,
     bookInfo,
+    uploadedBooks,
     currentChapterIndex,
     currentSentenceIndex,
     isPlaying,
@@ -37,6 +38,8 @@ export default function Home() {
     loadPdf,
     loadDemo,
     loadCatalogBook,
+    loadLibraryBook,
+    deleteLibraryBook,
     playSpeech,
     pauseSpeech,
     skipSentence,
@@ -46,7 +49,7 @@ export default function Home() {
   } = useAudioBook();
 
   // Navigation states
-  const [currentSection, setCurrentSection] = React.useState<"inicio" | "explorar" | "detalles" | "reproductor">("inicio");
+  const [currentSection, setCurrentSection] = React.useState<"inicio" | "explorar" | "detalles" | "reproductor" | "biblioteca">("inicio");
   const [selectedBookId, setSelectedBookId] = React.useState<string | null>(null);
   
   // Search & Filter states
@@ -167,6 +170,18 @@ export default function Home() {
           </button>
           
           <button
+            onClick={() => setCurrentSection("biblioteca")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left font-body font-semibold text-sm cursor-pointer ${
+              currentSection === "biblioteca"
+                ? "text-primary bg-primary-fixed/25 font-bold shadow-sm"
+                : "text-on-surface-variant hover:bg-surface-container hover:text-primary"
+            }`}
+          >
+            <span className="material-symbols-outlined text-[20px]">local_library</span>
+            <span>Mi Biblioteca</span>
+          </button>
+          
+          <button
             onClick={() => setCurrentSection("reproductor")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left font-body font-semibold text-sm cursor-pointer ${
               currentSection === "reproductor"
@@ -252,6 +267,14 @@ export default function Home() {
                 }`}
               >
                 Explorar
+              </button>
+              <button
+                onClick={() => setCurrentSection("biblioteca")}
+                className={`font-body text-sm font-semibold transition-colors cursor-pointer ${
+                  currentSection === "biblioteca" ? "text-primary border-b-2 border-primary pb-1 font-bold" : "text-on-surface-variant hover:text-secondary"
+                }`}
+              >
+                Mi Biblioteca
               </button>
               <button
                 onClick={() => setCurrentSection("reproductor")}
@@ -881,7 +904,7 @@ export default function Home() {
                   </section>
 
                   {/* Column 2: Reader Panel */}
-                  <section className={`${activeTab === "lectura" ? "block" : "hidden lg:block"} lg:col-span-5 h-full w-full`}>
+                  <section className={`${activeTab === "lectura" ? "block" : "hidden lg:block"} lg:col-span-5 h-full w-full space-y-6`}>
                     {/* Mobile tabs for reader options */}
                     <div className="flex lg:hidden bg-surface-container p-1 rounded-xl border border-outline-variant/20 mb-4 text-xs font-bold font-body">
                       <button onClick={() => setActiveTab("lectura")} className={`flex-1 py-2 rounded-lg text-center ${activeTab === "lectura" ? "bg-primary text-on-primary" : "text-on-surface-variant"}`}>Lectura</button>
@@ -894,6 +917,20 @@ export default function Home() {
                       currentSentenceIndex={currentSentenceIndex}
                       onSentenceClick={seekSentence}
                     />
+
+                    {/* Mobile AudioPlayer Controls */}
+                    <div className="block lg:hidden bg-surface-container-low p-6 rounded-xl shadow-sm border border-outline-variant/35">
+                      <AudioPlayer
+                        chapter={currentChapter}
+                        currentSentenceIndex={currentSentenceIndex}
+                        isPlaying={isPlaying}
+                        playbackSpeed={playbackSpeed}
+                        onPlayPause={handlePlayPause}
+                        onSkipSentence={skipSentence}
+                        onSeekSentence={seekSentence}
+                        onSpeedChange={setPlaybackSpeed}
+                      />
+                    </div>
                   </section>
 
                   {/* Column 3: Sidebar Panel */}
@@ -944,6 +981,107 @@ export default function Home() {
                     </div>
                   </aside>
 
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* E. SECCIÓN MI BIBLIOTECA */}
+          {currentSection === "biblioteca" && (
+            <div className="space-y-8 animate-fade-in pb-16">
+              <div>
+                <h2 className="font-display text-headline-md text-primary font-bold">Mi Biblioteca</h2>
+                <p className="font-body text-xs text-on-surface-variant mt-1">
+                  Aquí encontrarás todos los libros PDF que has cargado en este dispositivo.
+                </p>
+                <div className="h-0.5 w-12 bg-secondary rounded-full mt-2"></div>
+              </div>
+
+              {uploadedBooks.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                  {uploadedBooks.map((book) => (
+                    <div
+                      key={book.id}
+                      className="group relative bg-surface-container-low p-4 rounded-xl border border-outline-variant/15 hover:border-primary/30 transition-all shadow-sm flex flex-col justify-between"
+                    >
+                      {/* Delete button (floating on card hover) */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (confirm(`¿Estás seguro de que quieres eliminar "${book.title}" de tu biblioteca?`)) {
+                            deleteLibraryBook(book.id);
+                          }
+                        }}
+                        className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full bg-error-container text-on-error-container hover:bg-error hover:text-white flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                        title="Eliminar libro"
+                      >
+                        <span className="material-symbols-outlined text-[16px]">delete</span>
+                      </button>
+
+                      <div 
+                        onClick={() => {
+                          loadLibraryBook(book);
+                          setCurrentSection("reproductor");
+                        }}
+                        className="cursor-pointer space-y-3 flex-grow"
+                      >
+                        <div className="relative aspect-[2/3] overflow-hidden rounded-lg book-card-shadow bg-surface-container border border-outline-variant/10">
+                          {book.coverUrl ? (
+                            <img
+                              className="w-full h-full object-cover transform group-hover:scale-103 transition-transform duration-500"
+                              src={book.coverUrl}
+                              alt={book.title}
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-primary to-primary-container flex flex-col justify-between p-4 text-left">
+                              <span className="text-[8px] text-on-primary-container font-body font-bold tracking-widest uppercase">PDF</span>
+                              <h4 className="font-display text-sm text-white leading-tight font-bold line-clamp-3">{book.title}</h4>
+                              <span className="material-symbols-outlined text-secondary text-xl self-end">headphones</span>
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span className="material-symbols-outlined text-white text-4xl">play_circle</span>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-1 pt-1 text-left">
+                          <h4 className="font-display text-xs text-primary group-hover:text-secondary transition-colors line-clamp-2 leading-snug">
+                            {book.title}
+                          </h4>
+                          <p className="font-body text-[10px] text-on-surface-variant truncate">
+                            {book.chapters.length} capítulos
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="pt-3 border-t border-outline-variant/10 mt-3 flex gap-2">
+                        <button
+                          onClick={() => {
+                            loadLibraryBook(book);
+                            setCurrentSection("reproductor");
+                          }}
+                          className="flex-1 bg-primary text-on-primary py-1.5 rounded-lg font-body text-[10px] font-bold flex items-center justify-center gap-1 hover:opacity-95 active:scale-95 transition-all cursor-pointer"
+                        >
+                          <span className="material-symbols-outlined text-xs">headphones</span>
+                          <span>Leer</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-20 bg-surface-container-low rounded-2xl border border-dashed border-outline-variant/35 p-6 max-w-lg mx-auto">
+                  <span className="material-symbols-outlined text-outline-variant text-5xl mb-4">folder_open</span>
+                  <p className="font-display text-md text-primary font-bold">Tu biblioteca está vacía</p>
+                  <p className="font-body text-xs text-on-surface-variant mt-1">
+                    Ve a la sección Lector PDF y arrastra un archivo de libro PDF para procesarlo y guardarlo aquí.
+                  </p>
+                  <button
+                    onClick={() => setCurrentSection("reproductor")}
+                    className="mt-6 bg-primary text-on-primary text-xs font-body font-bold px-6 py-2.5 rounded-full cursor-pointer hover:bg-primary-container shadow"
+                  >
+                    Subir mi primer PDF
+                  </button>
                 </div>
               )}
             </div>
@@ -1058,6 +1196,18 @@ export default function Home() {
           >
             <span className="material-symbols-outlined text-[22px]">search</span>
             <span className="font-body text-[9px] mt-0.5">Explorar</span>
+          </button>
+
+          <button
+            onClick={() => setCurrentSection("biblioteca")}
+            className={`flex flex-col items-center justify-center py-1 px-3 rounded-full cursor-pointer transition-all ${
+              currentSection === "biblioteca"
+                ? "bg-secondary-container/60 text-on-secondary-container font-bold"
+                : "text-on-surface-variant hover:text-primary"
+            }`}
+          >
+            <span className="material-symbols-outlined text-[22px]">local_library</span>
+            <span className="font-body text-[9px] mt-0.5">Biblioteca</span>
           </button>
           
           <button

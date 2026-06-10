@@ -49,10 +49,16 @@ export interface BookInfo {
   chapters: Chapter[];
 }
 
+export interface LibraryBook extends BookInfo {
+  id: string;
+  addedAt: number;
+}
+
 export function useAudioBook() {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [bookInfo, setBookInfo] = useState<BookInfo | null>(null);
+  const [uploadedBooks, setUploadedBooks] = useState<LibraryBook[]>([]);
   
   // Player state
   const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
@@ -84,6 +90,11 @@ export function useAudioBook() {
       const savedBook = localStorage.getItem("vyr_bookInfo");
       if (savedBook) {
         setBookInfo(JSON.parse(savedBook));
+      }
+      
+      const savedUploadedBooks = localStorage.getItem("vyr_uploadedBooks");
+      if (savedUploadedBooks) {
+        setUploadedBooks(JSON.parse(savedUploadedBooks));
       }
       
       const savedChapter = localStorage.getItem("vyr_currentChapterIndex");
@@ -440,17 +451,25 @@ export function useAudioBook() {
         };
       });
 
-      // Cleanup filename for book title
       const title = file.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
-      
-      const info: BookInfo = {
+      const bookId = `pdf-${Date.now()}`;
+      const info: LibraryBook = {
+        id: bookId,
         title,
         author: "Archivo PDF Subido",
         coverUrl,
-        chapters: formattedChapters
+        chapters: formattedChapters,
+        addedAt: Date.now()
       };
       
       setBookInfo(info);
+      setUploadedBooks(prev => {
+        // Evitar duplicados por el mismo título para no saturar memoria
+        const filtered = prev.filter(b => b.title.toLowerCase() !== title.toLowerCase());
+        const updated = [info, ...filtered];
+        localStorage.setItem("vyr_uploadedBooks", JSON.stringify(updated));
+        return updated;
+      });
       setCurrentChapterIndex(0);
       setCurrentSentenceIndex(0);
       setIsPlaying(false);
@@ -718,6 +737,29 @@ export function useAudioBook() {
     setChapterElapsedSeconds(0);
   };
 
+  // Load an uploaded book from the library
+  const loadLibraryBook = (book: LibraryBook) => {
+    setBookInfo(book);
+    setCurrentChapterIndex(0);
+    setCurrentSentenceIndex(0);
+    setIsPlaying(false);
+    setChapterElapsedSeconds(0);
+  };
+
+  // Delete a book from the library
+  const deleteLibraryBook = (id: string) => {
+    setUploadedBooks(prev => {
+      const updated = prev.filter(b => b.id !== id);
+      localStorage.setItem("vyr_uploadedBooks", JSON.stringify(updated));
+      return updated;
+    });
+    
+    // Reset current book if it's the one being deleted
+    if (bookInfo && 'id' in bookInfo && (bookInfo as any).id === id) {
+      resetBook();
+    }
+  };
+
   // Reset book state (e.g. to upload another one)
   const resetBook = () => {
     pauseSpeech();
@@ -732,6 +774,7 @@ export function useAudioBook() {
     isLoading,
     progress,
     bookInfo,
+    uploadedBooks,
     currentChapterIndex,
     currentSentenceIndex,
     isPlaying,
@@ -755,6 +798,8 @@ export function useAudioBook() {
     loadPdf,
     loadDemo,
     loadCatalogBook,
+    loadLibraryBook,
+    deleteLibraryBook,
     playSpeech,
     pauseSpeech,
     skipSentence,
