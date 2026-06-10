@@ -185,18 +185,7 @@ export default function Home() {
             <span className="material-symbols-outlined text-[20px]">local_library</span>
             <span>Mi Biblioteca</span>
           </button>
-          
-          <button
-            onClick={() => setCurrentSection("reproductor")}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left font-body font-semibold text-sm cursor-pointer ${
-              currentSection === "reproductor"
-                ? "text-primary bg-primary-fixed/25 font-bold shadow-sm"
-                : "text-on-surface-variant hover:bg-surface-container hover:text-primary"
-            }`}
-          >
-            <span className="material-symbols-outlined text-[20px]">headphones</span>
-            <span>Lector PDF</span>
-          </button>
+
         </nav>
 
         <div className="mt-auto pt-6 border-t border-outline-variant/25">
@@ -269,12 +258,6 @@ export default function Home() {
                 }`}
               >
                 Mi Biblioteca
-              </button>
-              <button
-                onClick={() => setCurrentSection("reproductor")}
-                className="font-body text-sm font-semibold text-on-surface-variant hover:text-secondary transition-colors cursor-pointer"
-              >
-                Lector
               </button>
             </nav>
           </header>
@@ -806,52 +789,22 @@ export default function Home() {
           {currentSection === "reproductor" && (
             <div>
               {!bookInfo ? (
-                /* Landing Page / Upload Screen inside page */
-                <div className="space-y-12 py-4 animate-fade-in">
-                  <section className="relative overflow-hidden rounded-2xl bg-primary-container text-on-primary p-8 md:p-12 shadow-md flex flex-col md:flex-row items-center gap-8">
-                    <div className="flex-1 space-y-6">
-                      <span className="text-secondary-fixed-dim font-bold tracking-widest text-xs font-body block uppercase">
-                        Tecnología de Lectura Inteligente
-                      </span>
-                      <h1 className="font-display text-display-lg-mobile md:text-headline-md lg:text-display-lg font-bold leading-tight">
-                        Lector de PDFs & Audiolibro
-                      </h1>
-                      <p className="font-body text-body-lg text-on-primary-container max-w-xl">
-                        Sube tus propios archivos PDF para dividirlos automáticamente por capítulos y escucharlos en el navegador con voces naturales.
-                      </p>
-                      <div className="flex gap-2 flex-wrap pt-2">
-                        <span className="px-3 py-1 bg-white/10 text-on-primary rounded-full font-body text-xs uppercase tracking-wider font-semibold">
-                          100% Lado del Cliente
-                        </span>
-                        <span className="px-3 py-1 bg-white/10 text-on-primary rounded-full font-body text-xs uppercase tracking-wider font-semibold">
-                          Cloud Storage Activo
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div className="w-full md:w-64 shrink-0 flex justify-center">
-                      <div className="relative group select-none">
-                        <div className="absolute -inset-4 bg-secondary/20 rounded-[2rem] blur-3xl opacity-60"></div>
-                        <div className="w-44 h-64 bg-gradient-to-br from-primary to-primary-container rounded-lg cover-shadow flex flex-col justify-between p-6 border border-primary-fixed/20 relative z-10">
-                          <span className="text-[10px] text-on-primary-container font-body font-bold tracking-wider uppercase">Lector PDF</span>
-                          <div className="space-y-1">
-                            <h4 className="font-display text-md text-white leading-tight font-bold">Tu Libro PDF</h4>
-                            <p className="font-body text-[10px] text-on-primary-container italic">Arrastra el archivo</p>
-                          </div>
-                          <div className="h-0.5 bg-secondary rounded-full w-1/3"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-
-                  <section className="py-2">
-                    <UploadZone
-                      isLoading={isLoading}
-                      progress={progress}
-                      onFileSelect={handleFileSelect}
-                      onLoadDemo={loadDemo}
-                    />
-                  </section>
+                /* Empty Player view */
+                <div className="flex flex-col items-center justify-center py-20 bg-surface-container-low rounded-2xl border border-outline-variant/25 p-8 max-w-lg mx-auto text-center space-y-6 animate-fade-in mt-12 shadow-sm">
+                  <span className="material-symbols-outlined text-outline-variant text-6xl animate-pulse">headphones</span>
+                  <div className="space-y-2">
+                    <h2 className="font-display text-headline-md text-primary font-bold">Lector vacío</h2>
+                    <p className="font-body text-xs text-on-surface-variant max-w-xs leading-relaxed mx-auto">
+                      No hay ningún audiolibro reproduciéndose activamente. Selecciona un libro de tu biblioteca para comenzar la lectura.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setCurrentSection("biblioteca")}
+                    className="bg-primary text-on-primary font-body font-bold px-8 py-3 rounded-full hover:bg-primary-container transition-all active:scale-95 text-xs shadow-md flex items-center gap-2 cursor-pointer mx-auto"
+                  >
+                    <span className="material-symbols-outlined text-sm">local_library</span>
+                    <span>Ir a Mi Biblioteca</span>
+                  </button>
                 </div>
               ) : (
                 /* Full Screen Reader and Player controls */
@@ -1000,15 +953,51 @@ export default function Home() {
           {/* E. SECCIÓN MI BIBLIOTECA */}
           {currentSection === "biblioteca" && (
             <div className="space-y-8 animate-fade-in pb-16">
-              <div>
-                <h2 className="font-display text-headline-md text-primary font-bold">Mi Biblioteca</h2>
-                <p className="font-body text-xs text-on-surface-variant mt-1">
-                  Aquí encontrarás todos los libros PDF que has cargado en este dispositivo.
-                </p>
-                <div className="h-0.5 w-12 bg-secondary rounded-full mt-2"></div>
+              <div className="flex justify-between items-center pb-2 border-b border-outline-variant/15 flex-wrap gap-4">
+                <div className="text-left">
+                  <h2 className="font-display text-headline-md text-primary font-bold">Mi Biblioteca</h2>
+                  <p className="font-body text-xs text-on-surface-variant mt-1">
+                    Aquí encontrarás todos los libros PDF que has cargado en este dispositivo.
+                  </p>
+                </div>
+
+                {/* Compact upload button in library header (only shown when not loading and library is not empty) */}
+                {!isLoading && uploadedBooks.length > 0 && (
+                  <div className="relative">
+                    <input
+                      type="file"
+                      className="hidden"
+                      id="library-header-upload-input"
+                      accept=".pdf"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          handleFileSelect(e.target.files[0]);
+                        }
+                      }}
+                    />
+                    <button
+                      onClick={() => document.getElementById("library-header-upload-input")?.click()}
+                      className="bg-primary text-on-primary font-body font-bold px-5 py-2.5 rounded-xl hover:bg-primary-container transition-all active:scale-95 text-xs shadow-md flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-sm">upload</span>
+                      <span>Subir PDF</span>
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {uploadedBooks.length > 0 ? (
+              {isLoading ? (
+                /* Upload progress or parse state */
+                <div className="py-6">
+                  <UploadZone
+                    isLoading={isLoading}
+                    progress={progress}
+                    onFileSelect={handleFileSelect}
+                    onLoadDemo={loadDemo}
+                  />
+                </div>
+              ) : uploadedBooks.length > 0 ? (
+                /* Grid of books */
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                   {uploadedBooks.map((book) => (
                     <div
@@ -1033,6 +1022,10 @@ export default function Home() {
                         onClick={() => {
                           loadLibraryBook(book);
                           setCurrentSection("reproductor");
+                          setActiveTab("lectura");
+                          setTimeout(() => {
+                            playSpeech();
+                          }, 100);
                         }}
                         className="cursor-pointer space-y-3 flex-grow"
                       >
@@ -1070,6 +1063,10 @@ export default function Home() {
                           onClick={() => {
                             loadLibraryBook(book);
                             setCurrentSection("reproductor");
+                            setActiveTab("lectura");
+                            setTimeout(() => {
+                              playSpeech();
+                            }, 100);
                           }}
                           className="flex-1 bg-primary text-on-primary py-1.5 rounded-lg font-body text-[10px] font-bold flex items-center justify-center gap-1 hover:opacity-95 active:scale-95 transition-all cursor-pointer"
                         >
@@ -1081,18 +1078,14 @@ export default function Home() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-20 bg-surface-container-low rounded-2xl border border-dashed border-outline-variant/35 p-6 max-w-lg mx-auto">
-                  <span className="material-symbols-outlined text-outline-variant text-5xl mb-4">folder_open</span>
-                  <p className="font-display text-md text-primary font-bold">Tu biblioteca está vacía</p>
-                  <p className="font-body text-xs text-on-surface-variant mt-1">
-                    Ve a la sección Lector PDF y arrastra un archivo de libro PDF para procesarlo y guardarlo aquí.
-                  </p>
-                  <button
-                    onClick={() => setCurrentSection("reproductor")}
-                    className="mt-6 bg-primary text-on-primary text-xs font-body font-bold px-6 py-2.5 rounded-full cursor-pointer hover:bg-primary-container shadow"
-                  >
-                    Subir mi primer PDF
-                  </button>
+                /* Empty state: Render UploadZone directly in the library so user uploads here */
+                <div className="py-6">
+                  <UploadZone
+                    isLoading={isLoading}
+                    progress={progress}
+                    onFileSelect={handleFileSelect}
+                    onLoadDemo={loadDemo}
+                  />
                 </div>
               )}
             </div>
@@ -1220,18 +1213,7 @@ export default function Home() {
             <span className="material-symbols-outlined text-[22px]">local_library</span>
             <span className="font-body text-[9px] mt-0.5">Biblioteca</span>
           </button>
-          
-          <button
-            onClick={() => setCurrentSection("reproductor")}
-            className={`flex flex-col items-center justify-center py-1 px-3 rounded-full cursor-pointer transition-all ${
-              currentSection === "reproductor"
-                ? "bg-secondary-container/60 text-on-secondary-container font-bold"
-                : "text-on-surface-variant hover:text-primary"
-            }`}
-          >
-            <span className="material-symbols-outlined text-[22px]">headphones</span>
-            <span className="font-body text-[9px] mt-0.5">Lector</span>
-          </button>
+
         </nav>
 
         {/* Ambient background glows */}

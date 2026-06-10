@@ -462,7 +462,6 @@ export function useAudioBook() {
         addedAt: Date.now()
       };
       
-      setBookInfo(info);
       setUploadedBooks(prev => {
         // Evitar duplicados por el mismo título para no saturar memoria
         const filtered = prev.filter(b => b.title.toLowerCase() !== title.toLowerCase());
@@ -470,10 +469,6 @@ export function useAudioBook() {
         localStorage.setItem("vyr_uploadedBooks", JSON.stringify(updated));
         return updated;
       });
-      setCurrentChapterIndex(0);
-      setCurrentSentenceIndex(0);
-      setIsPlaying(false);
-      setChapterElapsedSeconds(0);
       
       setProgress(100);
       setTimeout(() => setIsLoading(false), 500);
@@ -567,17 +562,12 @@ export function useAudioBook() {
       addedAt: Date.now()
     };
 
-    setBookInfo(demoInfo);
     setUploadedBooks(prev => {
       const filtered = prev.filter(b => b.id !== "demo-el-principito");
       const updated = [demoInfo, ...filtered];
       localStorage.setItem("vyr_uploadedBooks", JSON.stringify(updated));
       return updated;
     });
-    setCurrentChapterIndex(0);
-    setCurrentSentenceIndex(0);
-    setIsPlaying(false);
-    setChapterElapsedSeconds(0);
     setProgress(100);
     
     setTimeout(() => setIsLoading(false), 500);
