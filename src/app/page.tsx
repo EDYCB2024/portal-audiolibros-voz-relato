@@ -73,6 +73,23 @@ export default function Home() {
     localStorage.setItem("vyr_currentSection", currentSection);
   }, [currentSection]);
 
+  const activateGeminiVoicePreset = () => {
+    if (availableVoices.length > 0) {
+      const bestVoice = availableVoices.find(v => v.name.includes("Natural")) ||
+                        availableVoices.find(v => v.name.includes("Enhanced")) ||
+                        availableVoices.find(v => v.name.includes("Google")) ||
+                        availableVoices.find(v => v.name.includes("Sabina")) ||
+                        availableVoices.find(v => v.name.includes("Helena")) ||
+                        selectedVoice;
+      if (bestVoice && bestVoice.name !== selectedVoice?.name) {
+        setSelectedVoice(bestVoice);
+      }
+    }
+    setPlaybackSpeed(0.9);
+    setSpeechVolume(1.0);
+    setSpeechPitch(0.95);
+  };
+
   const handleFileSelect = (file: File) => {
     loadPdf(file);
     setCurrentSection("biblioteca");
@@ -953,6 +970,7 @@ export default function Home() {
                         onVolumeChange={setSpeechVolume}
                         onPitchChange={setSpeechPitch}
                         onSleepTimerChange={setSleepTimer}
+                        onActivateGeminiPreset={activateGeminiVoicePreset}
                       />
                     </div>
 

@@ -10,12 +10,12 @@ interface VoiceSettingsProps {
   speechPitch: number;
   sleepTimer: number | null;
   timerRemaining: number | null;
-  
   onVoiceChange: (voice: SpeechSynthesisVoice) => void;
   onSpeedChange: (speed: number) => void;
   onVolumeChange: (volume: number) => void;
   onPitchChange: (pitch: number) => void;
   onSleepTimerChange: (minutes: number | null) => void;
+  onActivateGeminiPreset: () => void;
 }
 
 export default function VoiceSettings({
@@ -31,6 +31,7 @@ export default function VoiceSettings({
   onVolumeChange,
   onPitchChange,
   onSleepTimerChange,
+  onActivateGeminiPreset,
 }: VoiceSettingsProps) {
   const formatTime = (seconds: number | null): string => {
     if (seconds === null) return "";
@@ -38,6 +39,16 @@ export default function VoiceSettings({
     const s = seconds % 60;
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
+
+  const isGeminiPresetActive = 
+    playbackSpeed === 0.9 && 
+    speechPitch === 0.95 && 
+    (selectedVoice !== null && 
+      (selectedVoice.name.includes("Natural") || 
+       selectedVoice.name.includes("Enhanced") || 
+       selectedVoice.name.includes("Google") || 
+       selectedVoice.name.includes("Sabina") || 
+       selectedVoice.name.includes("Helena")));
 
   const getVoiceDisplayName = (voice: SpeechSynthesisVoice): string => {
     // Make names prettier
@@ -61,6 +72,41 @@ export default function VoiceSettings({
       <div className="flex items-center gap-2 pb-3 border-b border-outline-variant/30">
         <span className="material-symbols-outlined text-primary">settings_voice</span>
         <h3 className="font-display text-lg text-primary font-bold">Ajustes de Narración</h3>
+      </div>
+
+      {/* Gemini Voice Preset Quick Button */}
+      <div className="pb-4 border-b border-outline-variant/20">
+        <button
+          type="button"
+          onClick={onActivateGeminiPreset}
+          className={`w-full py-3 px-4 rounded-xl font-body font-bold text-sm flex items-center justify-between shadow transition-all duration-300 relative overflow-hidden group cursor-pointer ${
+            isGeminiPresetActive
+              ? "bg-gradient-to-r from-[#1a73e8] via-[#8ab4f8] to-[#c782ff] text-white scale-[1.01] shadow-md border-none"
+              : "bg-surface-container border border-outline-variant/30 text-on-surface hover:border-[#8ab4f8]/50"
+          }`}
+        >
+          {!isGeminiPresetActive && (
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1a73e8]/5 via-[#8ab4f8]/5 to-[#c782ff]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          )}
+          
+          <div className="flex items-center gap-2 relative z-10">
+            <span className={`material-symbols-outlined text-lg ${isGeminiPresetActive ? "text-white animate-pulse" : "text-primary"}`}>
+              sparkles
+            </span>
+            <span>Voz Estilo Gemini (Cálida y Natural)</span>
+          </div>
+          
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full relative z-10 ${
+            isGeminiPresetActive 
+              ? "bg-white/20 text-white" 
+              : "bg-primary/10 text-primary uppercase tracking-wider text-[8px]"
+          }`}>
+            {isGeminiPresetActive ? "Activo" : "Activar"}
+          </span>
+        </button>
+        <p className="font-body text-[10px] text-on-surface-variant mt-1.5 leading-relaxed pl-1 text-left">
+          Ajusta automáticamente la síntesis para emular la voz natural, cálida y pausada de Gemini.
+        </p>
       </div>
 
       {/* Voice Selection */}
