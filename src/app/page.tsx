@@ -199,6 +199,18 @@ export default function Home() {
             <span className="material-symbols-outlined text-[20px]">local_library</span>
             <span>Mi Biblioteca</span>
           </button>
+          
+          <button
+            onClick={() => setCurrentSection("reproductor")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left font-body font-semibold text-sm cursor-pointer ${
+              currentSection === "reproductor"
+                ? "text-primary bg-primary-fixed/25 font-bold shadow-sm"
+                : "text-on-surface-variant hover:bg-surface-container hover:text-primary"
+            }`}
+          >
+            <span className="material-symbols-outlined text-[20px]">headphones</span>
+            <span>Reproductor</span>
+          </button>
 
         </nav>
 
