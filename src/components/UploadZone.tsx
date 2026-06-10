@@ -113,6 +113,13 @@ export default function UploadZone({
 
   return (
     <div className="w-full max-w-xl mx-auto flex flex-col gap-6">
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        accept=".pdf"
+        onChange={handleChange}
+      />
       <div
         onClick={onButtonClick}
         className={`w-full p-12 bg-surface-container-low rounded-xl border-2 border-dashed transition-all duration-300 text-center flex flex-col items-center justify-center gap-6 cursor-pointer relative group ${
@@ -125,13 +132,6 @@ export default function UploadZone({
         onDragLeave={handleDrag}
         onDrop={handleDrop}
       >
-        <input
-          ref={fileInputRef}
-          type="file"
-          className="hidden"
-          accept=".pdf"
-          onChange={handleChange}
-        />
         
         {/* Ambient glow */}
         <div className="absolute -inset-4 bg-primary/5 rounded-[2rem] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
